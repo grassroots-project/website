@@ -496,26 +496,35 @@
   </nav>
 
   <div class="container">
-    <!-- API Key 设置 -->
+    <!-- API 设置 -->
     <div id="api-setup" class="api-setup">
       <div class="api-header" onclick="toggleApiSetup()">
-        <h3>🔑 Kimi Code API 设置</h3>
+        <h3>🔑 OpenAI 兼容 API 设置</h3>
         <span id="api-status" class="api-status disconnected">未连接</span>
       </div>
       <div class="api-body">
         <div class="api-guide">
-          <strong>如何获取 API Key？</strong>
-          <ol>
-            <li>访问 <a href="https://kimi.moonshot.cn/more/member" target="_blank">Kimi 会员页面</a></li>
-            <li>获取 Kimi Code API Key</li>
-            <li>复制 Key 粘贴到下方</li>
-          </ol>
-          <p style="margin-top:8px;color:#666;">⚠️ Key 仅存储在你的浏览器本地，不会上传到任何服务器。</p>
+          <strong>支持任何 OpenAI 兼容 API</strong>
+          <p style="margin-top:8px;">Moonshot / DeepSeek / 智谱 GLM / OpenAI 等</p>
+          <table style="width:100%;margin-top:10px;font-size:0.85rem;">
+            <tr><th style="text-align:left;padding:4px;">服务商</th><th style="text-align:left;padding:4px;">Endpoint</th><th style="text-align:left;padding:4px;">模型示例</th></tr>
+            <tr><td style="padding:4px;">Moonshot</td><td style="padding:4px;"><code>https://api.moonshot.cn/v1</code></td><td style="padding:4px;">moonshot-v1-8k</td></tr>
+            <tr><td style="padding:4px;">DeepSeek</td><td style="padding:4px;"><code>https://api.deepseek.com/v1</code></td><td style="padding:4px;">deepseek-chat</td></tr>
+            <tr><td style="padding:4px;">智谱 GLM</td><td style="padding:4px;"><code>https://open.bigmodel.cn/api/paas/v4</code></td><td style="padding:4px;">glm-4-flash</td></tr>
+            <tr><td style="padding:4px;">OpenAI</td><td style="padding:4px;"><code>https://api.openai.com/v1</code></td><td style="padding:4px;">gpt-4o-mini</td></tr>
+          </table>
+          <p style="margin-top:10px;color:#666;font-size:0.85rem;">⚠️ 配置仅存储在你的浏览器本地，不会上传到任何服务器。</p>
         </div>
-        <div class="api-input-group">
-          <input type="password" id="api-key-input" placeholder="sk-xxxxxxxxxxxxxxxx" />
-          <button class="btn btn-primary" onclick="saveApiKey()">保存</button>
-          <button class="btn btn-secondary" onclick="clearApiKey()">清除</button>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="api-input-group">
+            <input type="text" id="api-endpoint-input" placeholder="API Endpoint (如 https://api.moonshot.cn/v1)" style="flex:2;" />
+            <input type="text" id="api-model-input" placeholder="模型名称 (如 moonshot-v1-8k)" style="flex:1;" />
+          </div>
+          <div class="api-input-group">
+            <input type="password" id="api-key-input" placeholder="API Key (sk-xxxxxxxx)" />
+            <button class="btn btn-primary" onclick="saveApiConfig()">保存</button>
+            <button class="btn btn-secondary" onclick="clearApiConfig()">清除</button>
+          </div>
         </div>
       </div>
     </div>
@@ -532,7 +541,7 @@
           <div class="icon">🤖</div>
           <h3>我是 Grassroots AI 助手</h3>
           <p>我可以帮你了解项目、推荐适合你的任务、回答关于加入流程的问题。</p>
-          <p style="font-size:0.9rem;color:#999;">请先在上方设置 Kimi API Key</p>
+          <p style="font-size:0.9rem;color:#999;">请先在上方配置 API</p>
         </div>
       </div>
 
@@ -553,9 +562,13 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     // ==================== 配置 ====================
-    const API_URL = 'https://web.grassroots-project.workers.dev/';
-    const MODEL = 'kimi-for-coding';
-    const STORAGE_KEY = 'grassroots_kimi_api_key';
+    const STORAGE_KEY_ENDPOINT = 'grassroots_api_endpoint';
+    const STORAGE_KEY_MODEL = 'grassroots_api_model';
+    const STORAGE_KEY_KEY = 'grassroots_api_key';
+    
+    // 默认配置
+    const DEFAULT_ENDPOINT = 'https://api.moonshot.cn/v1';
+    const DEFAULT_MODEL = 'moonshot-v1-8k';
 
     // ==================== 项目知识库 ====================
     const PROJECT_KNOWLEDGE = `
@@ -658,43 +671,66 @@ ${PROJECT_KNOWLEDGE}
     let tasks = [];
     let isLoading = false;
 
-    // ==================== API Key 管理 ====================
-    function getApiKey() {
-      return localStorage.getItem(STORAGE_KEY);
+    // ==================== API 配置管理 ====================
+    function getApiConfig() {
+      return {
+        endpoint: localStorage.getItem(STORAGE_KEY_ENDPOINT) || DEFAULT_ENDPOINT,
+        model: localStorage.getItem(STORAGE_KEY_MODEL) || DEFAULT_MODEL,
+        key: localStorage.getItem(STORAGE_KEY_KEY) || ''
+      };
     }
 
-    function saveApiKey() {
-      const input = document.getElementById('api-key-input');
-      const key = input.value.trim();
-      if (!key) {
-        showToast('请输入 API Key', 'error');
+    function saveApiConfig() {
+      const endpoint = document.getElementById('api-endpoint-input').value.trim();
+      const model = document.getElementById('api-model-input').value.trim();
+      const key = document.getElementById('api-key-input').value.trim();
+      
+      if (!endpoint || !model || !key) {
+        showToast('请填写完整配置', 'error');
         return;
       }
-      localStorage.setItem(STORAGE_KEY, key);
+      
+      localStorage.setItem(STORAGE_KEY_ENDPOINT, endpoint);
+      localStorage.setItem(STORAGE_KEY_MODEL, model);
+      localStorage.setItem(STORAGE_KEY_KEY, key);
+      
       updateApiStatus();
       toggleApiSetup();
-      showToast('API Key 已保存', 'success');
+      showToast('配置已保存', 'success');
       document.getElementById('send-btn').disabled = false;
     }
 
-    function clearApiKey() {
-      localStorage.removeItem(STORAGE_KEY);
+    function clearApiConfig() {
+      localStorage.removeItem(STORAGE_KEY_ENDPOINT);
+      localStorage.removeItem(STORAGE_KEY_MODEL);
+      localStorage.removeItem(STORAGE_KEY_KEY);
+      
+      document.getElementById('api-endpoint-input').value = '';
+      document.getElementById('api-model-input').value = '';
       document.getElementById('api-key-input').value = '';
+      
       updateApiStatus();
       document.getElementById('send-btn').disabled = true;
-      showToast('API Key 已清除');
+      showToast('配置已清除');
     }
 
     function updateApiStatus() {
       const status = document.getElementById('api-status');
-      const key = getApiKey();
-      if (key) {
-        status.textContent = '已连接';
+      const config = getApiConfig();
+      
+      if (config.key) {
+        status.textContent = config.model || '已连接';
         status.className = 'api-status connected';
-        document.getElementById('api-key-input').value = key;
       } else {
-        status.textContent = '未连接';
+        status.textContent = '未配置';
         status.className = 'api-status disconnected';
+      }
+      
+      // 填充输入框
+      document.getElementById('api-endpoint-input').value = config.endpoint;
+      document.getElementById('api-model-input').value = config.model;
+      if (config.key) {
+        document.getElementById('api-key-input').value = config.key;
       }
     }
 
@@ -709,9 +745,9 @@ ${PROJECT_KNOWLEDGE}
       const text = input.value.trim();
       if (!text || isLoading) return;
 
-      const apiKey = getApiKey();
-      if (!apiKey) {
-        showToast('请先设置 API Key', 'error');
+      const config = getApiConfig();
+      if (!config.key) {
+        showToast('请先配置 API', 'error');
         return;
       }
 
@@ -735,15 +771,17 @@ ${PROJECT_KNOWLEDGE}
       try {
         // 构建系统 prompt（包含任务列表）
         const systemPrompt = SYSTEM_PROMPT.replace('{{TASKS}}', formatTasksForPrompt());
+        const config = getApiConfig();
+        const apiUrl = config.endpoint.replace(/\/$/, '') + '/chat/completions';
 
-        const response = await fetch(API_URL, {
+        const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-API-Key': apiKey
+            'Authorization': `Bearer ${config.key}`
           },
           body: JSON.stringify({
-            model: MODEL,
+            model: config.model,
             messages: [
               { role: 'system', content: systemPrompt },
               ...messages
@@ -890,7 +928,8 @@ ${PROJECT_KNOWLEDGE}
     updateApiStatus();
     loadTasks();
     
-    if (getApiKey()) {
+    const config = getApiConfig();
+    if (config.key) {
       document.getElementById('api-setup').classList.add('collapsed');
       document.getElementById('send-btn').disabled = false;
     }
