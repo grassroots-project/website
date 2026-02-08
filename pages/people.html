@@ -81,7 +81,7 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 100px 1.5rem 40px;
     }
@@ -94,12 +94,50 @@
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
 
+    /* 统计卡片 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .stat-card .label {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .stat-card.highlight .number {
+      color: var(--accent-color);
+    }
+
+    /* 主内容区 */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 20px;
+    }
+
     .pool-card {
       background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
+      padding: 25px;
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-      margin-bottom: 20px;
     }
 
     .pool-header {
@@ -113,134 +151,200 @@
 
     .pool-header h2 {
       color: var(--primary-color);
-      font-size: 1.5rem;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .edit-link {
-      padding: 8px 16px;
+      padding: 6px 12px;
       background: var(--accent-color);
       color: white;
       text-decoration: none;
       border-radius: 6px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       transition: all 0.3s;
     }
 
     .edit-link:hover {
       background: #e8830f;
-      transform: translateY(-2px);
     }
 
-    .pool-content {
-      line-height: 1.8;
-    }
-
-    .pool-content h2, .pool-content h3, .pool-content h4 {
-      margin-top: 25px;
-      margin-bottom: 15px;
-      color: var(--primary-color);
-    }
-
-    .pool-content h2 { font-size: 1.4rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px; }
-    .pool-content h3 { font-size: 1.2rem; }
-    .pool-content h4 { font-size: 1rem; color: #666; }
-
-    .pool-content p { margin-bottom: 12px; }
-
-    .pool-content ul, .pool-content ol {
-      margin-left: 25px;
-      margin-bottom: 15px;
-    }
-
-    .pool-content li { margin-bottom: 8px; }
-
-    .pool-content a {
-      color: var(--accent-color);
-      text-decoration: none;
-    }
-
-    .pool-content a:hover { text-decoration: underline; }
-
-    .pool-content code {
-      background: #f0f0f0;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-family: 'Monaco', 'Menlo', monospace;
-      font-size: 0.9em;
-    }
-
-    .pool-content pre {
-      background: #1a1a1a;
-      color: #f8f8f2;
-      padding: 15px;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin: 15px 0;
-    }
-
-    .pool-content pre code {
-      background: none;
-      padding: 0;
-      color: inherit;
-    }
-
-    .pool-content table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 15px 0;
-    }
-
-    .pool-content th, .pool-content td {
-      border: 1px solid var(--border-color);
-      padding: 10px 12px;
-      text-align: left;
-    }
-
-    .pool-content th {
-      background: var(--light-gray);
-      font-weight: 600;
-    }
-
-    .pool-content hr {
-      border: none;
-      border-top: 1px solid var(--border-color);
-      margin: 25px 0;
-    }
-
-    .pool-content blockquote {
-      border-left: 4px solid var(--accent-color);
-      padding-left: 15px;
-      margin: 15px 0;
-      color: #666;
-      font-style: italic;
+    /* 成员卡片 */
+    .member-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
 
     .member-card {
       background: var(--light-gray);
-      padding: 20px;
+      padding: 18px;
       border-radius: 12px;
-      margin: 15px 0;
       border-left: 4px solid var(--accent-color);
+      transition: all 0.3s;
     }
 
-    .member-card h3 {
-      margin-top: 0 !important;
+    .member-card:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .member-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .member-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .member-info h3 {
+      font-size: 1.1rem;
       color: var(--primary-color);
+      margin: 0;
+    }
+
+    .member-info .join-date {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .member-tasks {
+      margin-top: 10px;
+    }
+
+    .task-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin: 3px 3px 3px 0;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .task-badge.in-progress {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .task-badge.completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .task-badge:hover {
+      transform: translateY(-2px);
+    }
+
+    .member-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .skill-tag {
+      padding: 3px 8px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    /* 活动流 */
+    .activity-feed {
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .activity-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      gap: 12px;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .activity-icon.claim { background: #dbeafe; }
+    .activity-icon.complete { background: #dcfce7; }
+    .activity-icon.create { background: #fef3c7; }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-content .actor {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .activity-content .task-link {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .activity-content .task-link:hover {
+      text-decoration: underline;
+    }
+
+    .activity-time {
+      font-size: 0.8rem;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .no-activity {
+      text-align: center;
+      padding: 30px;
+      color: #666;
     }
 
     .loading {
       text-align: center;
-      padding: 60px;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.2rem;
+      padding: 40px;
+      color: #666;
     }
 
-    .error {
-      text-align: center;
-      padding: 40px;
-      color: #d73a4a;
-      background: white;
-      border-radius: 12px;
+    .refresh-btn {
+      padding: 6px 12px;
+      background: none;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+
+    .refresh-btn:hover {
+      background: var(--light-gray);
     }
 
     footer {
@@ -274,6 +378,12 @@
 
     .back-to-top.hidden { display: none; }
 
+    @media (max-width: 900px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
       nav { padding: 0.8rem 1rem; }
       nav .logo { font-size: 1.2rem; }
@@ -294,8 +404,8 @@
       nav ul li a { padding: 0.8rem 1rem; display: block; }
       h1 { font-size: 1.6rem; }
       .container { padding: 100px 1rem 40px; }
-      .pool-card { padding: 20px; }
-      .pool-header { flex-direction: column; gap: 10px; text-align: center; }
+      .pool-card { padding: 18px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -322,18 +432,58 @@
   <div class="container">
     <h1>👥 人池</h1>
 
-    <div id="pool-content" class="pool-card">
-      <div class="loading">加载中...</div>
+    <!-- 统计卡片 -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="number" id="stat-members">-</div>
+        <div class="label">成员</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="number" id="stat-in-progress">-</div>
+        <div class="label">进行中</div>
+      </div>
+      <div class="stat-card">
+        <div class="number" id="stat-completed">-</div>
+        <div class="label">已完成</div>
+      </div>
+      <div class="stat-card">
+        <div class="number" id="stat-open">-</div>
+        <div class="label">待领取</div>
+      </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-grid">
+      <!-- 成员列表 -->
+      <div class="pool-card">
+        <div class="pool-header">
+          <h2>👥 成员任务</h2>
+          <button class="refresh-btn" onclick="loadAll()">🔄 刷新</button>
+        </div>
+        <div id="member-list" class="member-grid">
+          <div class="loading">加载中...</div>
+        </div>
+      </div>
+
+      <!-- 活动流 -->
+      <div class="pool-card">
+        <div class="pool-header">
+          <h2>📢 最近动态</h2>
+          <a href="https://github.com/grassroots-project/tasks/issues" target="_blank" class="edit-link">查看全部</a>
+        </div>
+        <div id="activity-feed" class="activity-feed">
+          <div class="loading">加载中...</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <button class="back-to-top hidden" onclick="scrollToTop()" title="返回顶部">↑</button>
 
   <footer>
-    <p>© 2026 Grassroots Project · <a href="https://github.com/grassroots-project/tasks/issues/1" target="_blank">在 GitHub 上查看</a></p>
+    <p>© 2026 Grassroots Project · <a href="https://github.com/grassroots-project/tasks/issues/1" target="_blank">在 GitHub 上编辑人池</a></p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     function toggleMenu() {
       document.getElementById('nav-menu').classList.toggle('show');
@@ -352,42 +502,262 @@
       }
     });
 
-    const ISSUE_NUMBER = 1; // 人池 Issue
-    const API_URL = `https://api.github.com/repos/grassroots-project/tasks/issues/${ISSUE_NUMBER}`;
+    const API_BASE = 'https://api.github.com/repos/grassroots-project/tasks';
 
-    async function loadPool() {
-      const container = document.getElementById('pool-content');
-      
+    // 数据缓存
+    let allIssues = [];
+    let allEvents = [];
+
+    // 加载所有数据
+    async function loadAll() {
+      await Promise.all([loadIssues(), loadEvents()]);
+      renderStats();
+      renderMembers();
+      renderActivity();
+    }
+
+    // 加载所有 Issues
+    async function loadIssues() {
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_BASE}/issues?state=all&per_page=100`, {
           headers: { 'Accept': 'application/vnd.github.v3+json' }
         });
-        
         if (!response.ok) throw new Error('Failed to fetch');
+        const issues = await response.json();
         
-        const issue = await response.json();
-        const htmlContent = marked.parse(issue.body);
-        
-        container.innerHTML = `
-          <div class="pool-header">
-            <h2>${issue.title}</h2>
-            <a href="${issue.html_url}" target="_blank" class="edit-link">✏️ 编辑</a>
-          </div>
-          <div class="pool-content">
-            ${htmlContent}
-          </div>
-        `;
+        // 过滤掉 PR 和 人池/资源池
+        allIssues = issues.filter(issue => {
+          if (issue.pull_request) return false;
+          const labels = issue.labels.map(l => l.name);
+          if (labels.includes('人池') || labels.includes('资源池')) return false;
+          return true;
+        });
       } catch (error) {
-        container.innerHTML = `
-          <div class="error">
-            <p>加载失败</p>
-            <p><a href="https://github.com/grassroots-project/tasks/issues/${ISSUE_NUMBER}" target="_blank">点击直接访问 GitHub</a></p>
-          </div>
-        `;
+        console.error('Failed to load issues:', error);
       }
     }
 
-    loadPool();
+    // 加载最近事件
+    async function loadEvents() {
+      try {
+        const response = await fetch(`${API_BASE}/issues/events?per_page=50`, {
+          headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (!response.ok) throw new Error('Failed to fetch');
+        allEvents = await response.json();
+      } catch (error) {
+        console.error('Failed to load events:', error);
+        allEvents = [];
+      }
+    }
+
+    // 渲染统计
+    function renderStats() {
+      const inProgress = allIssues.filter(i => 
+        i.labels.some(l => l.name === '进行中')
+      ).length;
+      
+      const completed = allIssues.filter(i => 
+        i.labels.some(l => l.name === '已完成') || i.state === 'closed'
+      ).length;
+      
+      const open = allIssues.filter(i => 
+        i.state === 'open' && i.labels.some(l => l.name === '待领')
+      ).length;
+      
+      // 获取唯一成员数
+      const members = new Set();
+      allIssues.forEach(issue => {
+        issue.assignees.forEach(a => members.add(a.login));
+      });
+      
+      document.getElementById('stat-members').textContent = members.size || 1;
+      document.getElementById('stat-in-progress').textContent = inProgress;
+      document.getElementById('stat-completed').textContent = completed;
+      document.getElementById('stat-open').textContent = open;
+    }
+
+    // 渲染成员列表
+    function renderMembers() {
+      const container = document.getElementById('member-list');
+      
+      // 按 assignee 分组
+      const memberMap = new Map();
+      
+      allIssues.forEach(issue => {
+        const status = getIssueStatus(issue);
+        
+        issue.assignees.forEach(assignee => {
+          if (!memberMap.has(assignee.login)) {
+            memberMap.set(assignee.login, {
+              login: assignee.login,
+              avatar: assignee.avatar_url,
+              inProgress: [],
+              completed: []
+            });
+          }
+          
+          const member = memberMap.get(assignee.login);
+          const taskInfo = {
+            number: issue.number,
+            title: issue.title,
+            url: issue.html_url
+          };
+          
+          if (status === 'completed') {
+            member.completed.push(taskInfo);
+          } else if (status === 'in-progress') {
+            member.inProgress.push(taskInfo);
+          }
+        });
+      });
+      
+      // 如果没有成员，显示默认
+      if (memberMap.size === 0) {
+        container.innerHTML = `
+          <div class="member-card">
+            <div class="member-header">
+              <div class="member-avatar">T</div>
+              <div class="member-info">
+                <h3>Tang</h3>
+                <div class="join-date">发起人 · 2026-02-08</div>
+              </div>
+            </div>
+            <div class="member-tasks">
+              <span style="color:#666;font-size:0.9rem;">项目发起、战略规划</span>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      
+      // 渲染成员卡片
+      let html = '';
+      memberMap.forEach((member, login) => {
+        const initial = login.charAt(0).toUpperCase();
+        const totalTasks = member.inProgress.length + member.completed.length;
+        
+        html += `
+          <div class="member-card">
+            <div class="member-header">
+              <img src="${member.avatar}" alt="${login}" class="member-avatar" style="background:none;">
+              <div class="member-info">
+                <h3>${login}</h3>
+                <div class="join-date">${totalTasks} 个任务</div>
+              </div>
+            </div>
+            <div class="member-tasks">
+              ${member.inProgress.map(t => `
+                <a href="${t.url}" target="_blank" class="task-badge in-progress">
+                  🔄 #${t.number} ${truncate(t.title, 20)}
+                </a>
+              `).join('')}
+              ${member.completed.map(t => `
+                <a href="${t.url}" target="_blank" class="task-badge completed">
+                  ✅ #${t.number} ${truncate(t.title, 20)}
+                </a>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+
+    // 渲染活动流
+    function renderActivity() {
+      const container = document.getElementById('activity-feed');
+      
+      // 过滤有意义的事件
+      const relevantEvents = allEvents.filter(e => 
+        ['assigned', 'labeled', 'closed'].includes(e.event) &&
+        e.issue && !e.issue.pull_request
+      ).slice(0, 20);
+      
+      if (relevantEvents.length === 0) {
+        container.innerHTML = '<div class="no-activity">暂无活动记录</div>';
+        return;
+      }
+      
+      let html = '';
+      relevantEvents.forEach(event => {
+        const time = formatTime(event.created_at);
+        let icon = '', action = '';
+        
+        switch (event.event) {
+          case 'assigned':
+            icon = '<div class="activity-icon claim">🙋</div>';
+            action = `<span class="actor">${event.actor?.login || '未知'}</span> 领取了 <a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number} ${truncate(event.issue.title, 25)}</a>`;
+            break;
+          case 'closed':
+            icon = '<div class="activity-icon complete">✅</div>';
+            action = `<span class="actor">${event.actor?.login || '未知'}</span> 完成了 <a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number} ${truncate(event.issue.title, 25)}</a>`;
+            break;
+          case 'labeled':
+            if (event.label?.name === '进行中') {
+              icon = '<div class="activity-icon claim">🔄</div>';
+              action = `<a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number}</a> 状态变为 <strong>进行中</strong>`;
+            } else if (event.label?.name === '已完成') {
+              icon = '<div class="activity-icon complete">🎉</div>';
+              action = `<a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number}</a> 状态变为 <strong>已完成</strong>`;
+            } else {
+              return;
+            }
+            break;
+          default:
+            return;
+        }
+        
+        html += `
+          <div class="activity-item">
+            ${icon}
+            <div class="activity-content">
+              <div>${action}</div>
+              <div class="activity-time">${time}</div>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html || '<div class="no-activity">暂无活动记录</div>';
+    }
+
+    // 辅助函数
+    function getIssueStatus(issue) {
+      if (issue.state === 'closed') return 'completed';
+      const labels = issue.labels.map(l => l.name);
+      if (labels.includes('已完成')) return 'completed';
+      if (labels.includes('进行中')) return 'in-progress';
+      return 'open';
+    }
+
+    function truncate(str, len) {
+      return str.length > len ? str.slice(0, len) + '...' : str;
+    }
+
+    function formatTime(isoString) {
+      const date = new Date(isoString);
+      const now = new Date();
+      const diff = now - date;
+      
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      
+      if (minutes < 1) return '刚刚';
+      if (minutes < 60) return `${minutes} 分钟前`;
+      if (hours < 24) return `${hours} 小时前`;
+      if (days < 7) return `${days} 天前`;
+      
+      return date.toLocaleDateString('zh-CN');
+    }
+
+    // 初始化
+    loadAll();
+    
+    // 每 30 秒自动刷新
+    setInterval(loadAll, 30000);
   </script>
 </body>
 </html>
