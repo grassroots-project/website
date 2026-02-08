@@ -553,7 +553,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     // ==================== 配置 ====================
-    const API_URL = 'https://api.kimi.com/coding/v1/chat/completions';
+    const API_URL = 'https://web.grassroots-project.workers.dev/';
     const MODEL = 'kimi-for-coding';
     const STORAGE_KEY = 'grassroots_kimi_api_key';
 
@@ -740,7 +740,7 @@ ${PROJECT_KNOWLEDGE}
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
+            'X-API-Key': apiKey
           },
           body: JSON.stringify({
             model: MODEL,
