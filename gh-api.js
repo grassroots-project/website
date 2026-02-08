@@ -77,8 +77,10 @@ export function parseTaskLabels(labels) {
 
   for (const label of labels) {
     const name = label.name;
-    if (['p0', 'p1', 'p2'].includes(name)) {
-      result.priority = name;
+    const nameLower = name.toLowerCase();
+    // 兼容大小写：P0/p0, P1/p1, P2/p2
+    if (['p0', 'p1', 'p2'].includes(nameLower)) {
+      result.priority = nameLower;
     } else if (['待领', '进行中', '已完成'].includes(name)) {
       result.status = name;
     } else {
