@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 助手 - Grassroots Project</title>
+  <style>
+    :root {
+      --primary-color: #1a1a1a;
+      --accent-color: #f7931a;
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --light-gray: #f5f5f5;
+      --border-color: #e0e0e0;
+      --nav-bg: rgba(255, 255, 255, 0.95);
+      --ai-color: #6366f1;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: var(--light-gray);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.8rem 2rem;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    nav .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: all 0.3s;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 2px;
+      background: var(--primary-color);
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 80px 1rem 1rem;
+    }
+
+    /* API Key 设置 */
+    .api-setup {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .api-setup.collapsed {
+      padding: 12px 20px;
+    }
+
+    .api-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .api-header h3 {
+      font-size: 1rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .api-status {
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .api-status.connected {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .api-status.disconnected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .api-body {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .api-setup:not(.collapsed) .api-body {
+      display: block;
+    }
+
+    .api-guide {
+      background: var(--light-gray);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .api-guide ol {
+      margin-left: 20px;
+    }
+
+    .api-guide a {
+      color: var(--ai-color);
+    }
+
+    .api-input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .api-input-group input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .api-input-group input:focus {
+      outline: none;
+      border-color: var(--ai-color);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: var(--ai-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #4f46e5;
+    }
+
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #666;
+    }
+
+    .btn-secondary:hover {
+      background: #d0d0d0;
+    }
+
+    /* 聊天区域 */
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h2 {
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      line-height: 1.5;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: var(--ai-color);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.assistant {
+      align-self: flex-start;
+      background: var(--light-gray);
+      color: var(--text-color);
+      border-bottom-left-radius: 4px;
+    }
+
+    .message.system {
+      align-self: center;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 0.9rem;
+      padding: 8px 16px;
+    }
+
+    .message.assistant p {
+      margin-bottom: 8px;
+    }
+
+    .message.assistant p:last-child {
+      margin-bottom: 0;
+    }
+
+    .message.assistant ul, .message.assistant ol {
+      margin-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    .message.assistant code {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    .message.assistant a {
+      color: var(--ai-color);
+    }
+
+    .message .task-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+    }
+
+    .message .task-card:hover {
+      border-color: var(--ai-color);
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 12px 16px;
+      align-self: flex-start;
+      background: var(--light-gray);
+      border-radius: 12px;
+    }
+
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #999;
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+
+    /* 输入区域 */
+    .chat-input {
+      padding: 15px 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input textarea {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: none;
+      min-height: 48px;
+      max-height: 120px;
+    }
+
+    .chat-input textarea:focus {
+      outline: none;
+      border-color: var(--ai-color);
+    }
+
+    .chat-input button {
+      padding: 12px 24px;
+      background: var(--ai-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .chat-input button:hover:not(:disabled) {
+      background: #4f46e5;
+    }
+
+    .chat-input button:disabled {
+      background: #c7c7c7;
+      cursor: not-allowed;
+    }
+
+    /* 快捷问题 */
+    .quick-questions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 10px 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--light-gray);
+    }
+
+    .quick-btn {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .quick-btn:hover {
+      border-color: var(--ai-color);
+      color: var(--ai-color);
+    }
+
+    /* 空状态 */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #666;
+      padding: 40px;
+    }
+
+    .empty-state .icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--primary-color);
+    }
+
+    .empty-state p {
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      background: #333;
+      color: white;
+      border-radius: 8px;
+      z-index: 3000;
+    }
+
+    .toast.error { background: #d73a4a; }
+    .toast.success { background: #28a745; }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      nav { padding: 0.8rem 1rem; }
+      nav .logo { font-size: 1.2rem; }
+      .hamburger { display: flex; }
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--nav-bg);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0;
+      }
+      nav ul.show { display: flex; }
+      nav ul li { width: 100%; }
+      nav ul li a { padding: 0.8rem 1rem; display: block; }
+
+      .container { padding: 70px 0.5rem 0.5rem; }
+      .api-setup { border-radius: 8px; }
+      .chat-container { border-radius: 8px; }
+      .message { max-width: 90%; }
+      .quick-questions { padding: 8px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="logo">🌱 Grassroots Project</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-menu">
+      <li><a href="../index.html">🏠 首页</a></li>
+      <li><a href="about.html">💡 关于</a></li>
+      <li><a href="tasks.html">📋 任务池</a></li>
+      <li><a href="kanban.html">📊 看板</a></li>
+      <li><a href="people.html">👥 人池</a></li>
+      <li><a href="resources.html">📦 资源池</a></li>
+      <li><a href="assistant.html" class="active">🤖 AI 助手</a></li>
+      <li><a href="join.html">🚀 加入我们</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <!-- API Key 设置 -->
+    <div id="api-setup" class="api-setup">
+      <div class="api-header" onclick="toggleApiSetup()">
+        <h3>🔑 Kimi API 设置</h3>
+        <span id="api-status" class="api-status disconnected">未连接</span>
+      </div>
+      <div class="api-body">
+        <div class="api-guide">
+          <strong>如何获取 API Key？</strong>
+          <ol>
+            <li>访问 <a href="https://platform.moonshot.cn/console/api-keys" target="_blank">Moonshot 控制台</a></li>
+            <li>注册/登录后，创建 API Key</li>
+            <li>复制 Key 粘贴到下方</li>
+          </ol>
+          <p style="margin-top:8px;color:#666;">⚠️ Key 仅存储在你的浏览器本地，不会上传到任何服务器。</p>
+        </div>
+        <div class="api-input-group">
+          <input type="password" id="api-key-input" placeholder="sk-xxxxxxxxxxxxxxxx" />
+          <button class="btn btn-primary" onclick="saveApiKey()">保存</button>
+          <button class="btn btn-secondary" onclick="clearApiKey()">清除</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 聊天区域 -->
+    <div class="chat-container">
+      <div class="chat-header">
+        <h2>🤖 Grassroots AI 助手</h2>
+        <button class="btn btn-secondary" onclick="clearChat()" style="padding:6px 12px;font-size:0.85rem;">清空对话</button>
+      </div>
+
+      <div id="chat-messages" class="chat-messages">
+        <div class="empty-state" id="empty-state">
+          <div class="icon">🤖</div>
+          <h3>我是 Grassroots AI 助手</h3>
+          <p>我可以帮你了解项目、推荐适合你的任务、回答关于加入流程的问题。</p>
+          <p style="font-size:0.9rem;color:#999;">请先在上方设置 Kimi API Key</p>
+        </div>
+      </div>
+
+      <div class="quick-questions">
+        <button class="quick-btn" onclick="askQuestion('这个项目是做什么的？')">这个项目是做什么的？</button>
+        <button class="quick-btn" onclick="askQuestion('我会写代码，有什么任务适合我？')">适合程序员的任务</button>
+        <button class="quick-btn" onclick="askQuestion('我想加入，需要做什么？')">如何加入？</button>
+        <button class="quick-btn" onclick="askQuestion('什么是三条腿？')">什么是三条腿？</button>
+      </div>
+
+      <div class="chat-input">
+        <textarea id="user-input" placeholder="输入你的问题..." rows="1" onkeydown="handleKeyDown(event)"></textarea>
+        <button id="send-btn" onclick="sendMessage()" disabled>发送</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // ==================== 配置 ====================
+    const API_URL = 'https://api.moonshot.cn/v1/chat/completions';
+    const MODEL = 'moonshot-v1-8k';
+    const STORAGE_KEY = 'grassroots_kimi_api_key';
+
+    // ==================== 项目知识库 ====================
+    const PROJECT_KNOWLEDGE = `
+# Grassroots Project 知识库
+
+## 项目简介
+Grassroots Project 是一个为被低估的个体提供夺回定价权的协作基础的项目。
+- **使命**：为被低估的个体提供夺回定价权的协作基础
+- **愿景**：构建一个价值被发现的网络，让每个参与者都能通过协作获得非线性成长
+- **核心主张**：价值不是被赋予的，是被发现的
+
+## 三条腿
+项目的核心架构由三个相乘（不是相加）的要素组成：
+
+1. **比特币（信任基础）**
+   - 去中心化的价值存储和转移
+   - 不依赖权威的信任机制
+   - 不可篡改的贡献记录
+
+2. **计算机和网络（协作机制）**
+   - 远程协作、实时通信
+   - 让价值发现可以发生
+   - 降低协作成本
+
+3. **大语言模型（认知共识）**
+   - AI 作为认知协调者
+   - 降低参与博弈的认知门槛
+   - 协助价值匹配
+
+成长机制：三者相乘，这是指数级成长的核心来源。
+
+## 池塘模式
+我们的组织方式是一个开放的池塘：
+- **任务池**：开放任务，任何人可以添加和领取
+- **资源池**：比特币、知识、工具、人力
+- **人池**：技能、时间、当前参与、历史贡献
+
+原则：自由组合 + AI 引导，价值在博弈中发现。不批准，只记录。
+
+## 目标群体
+- 地理：全球，重点中国
+- Z 世代（2000 后）、应届毕业生、80-90 后再就业人群
+- 共同特征：被传统就业体系边缘化或价值被低估
+
+## 如何加入
+1. 阅读项目介绍（关于页面）
+2. 回答筛选问卷（加入我们页面）
+3. 发送答案到 xiaoping.tang@gmail.com
+4. 回复后，添加信息到人池
+
+## 技能标签说明
+| 标签 | 说明 |
+|------|------|
+| 文案 | 写作、内容策划 |
+| 视频 | 视频制作、剪辑 |
+| 设计 | UI/UX、平面设计 |
+| 技术 | 编程、开发 |
+| 运营 | 社群运营、用户增长 |
+| 沟通 | 沟通、协调 |
+| 社交 | 社交、人脉 |
+| 战略 | 战略规划、思维 |
+
+## 任务优先级
+- P0：必须先做，紧急重要
+- P1：重要不紧急
+- P2：探索性，可以尝试
+
+## 网站链接
+- 首页：/index.html
+- 关于：/pages/about.html
+- 任务池：/pages/tasks.html
+- 看板：/pages/kanban.html
+- 人池：/pages/people.html
+- 资源池：/pages/resources.html
+- 加入我们：/pages/join.html
+`;
+
+    const SYSTEM_PROMPT = `你是 Grassroots Project 的 AI 助手。你的任务是：
+1. 帮助用户了解项目的愿景、使命和运作方式
+2. 根据用户的技能推荐适合的任务
+3. 引导新人加入项目
+4. 回答关于项目的各种问题
+
+请基于以下知识库回答问题。回答要简洁友好，使用中文。如果涉及具体任务，可以建议用户去任务池页面查看。
+
+${PROJECT_KNOWLEDGE}
+
+当前可用的任务（从任务池动态加载，如果没有加载到则说任务池正在更新中，请用户直接访问任务池页面）：
+{{TASKS}}
+
+回答风格：
+- 简洁明了，不要太长
+- 友好亲切，像朋友一样聊天
+- 如果不确定，诚实说明
+- 适当使用 emoji 增加亲和力
+- 推荐任务时，说明任务编号、名称、优先级和所需技能`;
+
+    // ==================== 状态 ====================
+    let messages = [];
+    let tasks = [];
+    let isLoading = false;
+
+    // ==================== API Key 管理 ====================
+    function getApiKey() {
+      return localStorage.getItem(STORAGE_KEY);
+    }
+
+    function saveApiKey() {
+      const input = document.getElementById('api-key-input');
+      const key = input.value.trim();
+      if (!key) {
+        showToast('请输入 API Key', 'error');
+        return;
+      }
+      localStorage.setItem(STORAGE_KEY, key);
+      updateApiStatus();
+      toggleApiSetup();
+      showToast('API Key 已保存', 'success');
+      document.getElementById('send-btn').disabled = false;
+    }
+
+    function clearApiKey() {
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById('api-key-input').value = '';
+      updateApiStatus();
+      document.getElementById('send-btn').disabled = true;
+      showToast('API Key 已清除');
+    }
+
+    function updateApiStatus() {
+      const status = document.getElementById('api-status');
+      const key = getApiKey();
+      if (key) {
+        status.textContent = '已连接';
+        status.className = 'api-status connected';
+        document.getElementById('api-key-input').value = key;
+      } else {
+        status.textContent = '未连接';
+        status.className = 'api-status disconnected';
+      }
+    }
+
+    function toggleApiSetup() {
+      const setup = document.getElementById('api-setup');
+      setup.classList.toggle('collapsed');
+    }
+
+    // ==================== 聊天功能 ====================
+    async function sendMessage() {
+      const input = document.getElementById('user-input');
+      const text = input.value.trim();
+      if (!text || isLoading) return;
+
+      const apiKey = getApiKey();
+      if (!apiKey) {
+        showToast('请先设置 API Key', 'error');
+        return;
+      }
+
+      // 清空输入
+      input.value = '';
+      input.style.height = 'auto';
+
+      // 隐藏空状态
+      const emptyState = document.getElementById('empty-state');
+      if (emptyState) emptyState.style.display = 'none';
+
+      // 添加用户消息
+      addMessage('user', text);
+      messages.push({ role: 'user', content: text });
+
+      // 显示加载状态
+      isLoading = true;
+      document.getElementById('send-btn').disabled = true;
+      const typingEl = addTypingIndicator();
+
+      try {
+        // 构建系统 prompt（包含任务列表）
+        const systemPrompt = SYSTEM_PROMPT.replace('{{TASKS}}', formatTasksForPrompt());
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              ...messages
+            ],
+            temperature: 0.7,
+            max_tokens: 1000
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error?.message || '请求失败');
+        }
+
+        const data = await response.json();
+        const reply = data.choices[0].message.content;
+
+        // 移除加载指示器
+        typingEl.remove();
+
+        // 添加助手回复
+        addMessage('assistant', reply);
+        messages.push({ role: 'assistant', content: reply });
+
+      } catch (error) {
+        typingEl.remove();
+        addMessage('system', '⚠️ ' + error.message);
+        console.error('API Error:', error);
+      } finally {
+        isLoading = false;
+        document.getElementById('send-btn').disabled = false;
+      }
+    }
+
+    function addMessage(role, content) {
+      const container = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = `message ${role}`;
+      
+      if (role === 'assistant') {
+        div.innerHTML = marked.parse(content);
+      } else {
+        div.textContent = content;
+      }
+      
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      return div;
+    }
+
+    function addTypingIndicator() {
+      const container = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'typing-indicator';
+      div.innerHTML = '<span></span><span></span><span></span>';
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+      return div;
+    }
+
+    function clearChat() {
+      messages = [];
+      const container = document.getElementById('chat-messages');
+      container.innerHTML = `
+        <div class="empty-state" id="empty-state">
+          <div class="icon">🤖</div>
+          <h3>我是 Grassroots AI 助手</h3>
+          <p>我可以帮你了解项目、推荐适合你的任务、回答关于加入流程的问题。</p>
+        </div>
+      `;
+    }
+
+    function askQuestion(text) {
+      document.getElementById('user-input').value = text;
+      sendMessage();
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    // ==================== 任务加载 ====================
+    async function loadTasks() {
+      try {
+        const response = await fetch(
+          'https://api.github.com/repos/grassroots-project/tasks/issues?state=open&per_page=50',
+          { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+        );
+        if (!response.ok) return;
+        
+        const issues = await response.json();
+        tasks = issues.filter(issue => {
+          if (issue.pull_request) return false;
+          const labels = issue.labels.map(l => l.name);
+          if (labels.includes('人池') || labels.includes('资源池')) return false;
+          return true;
+        });
+      } catch (error) {
+        console.error('Failed to load tasks:', error);
+      }
+    }
+
+    function formatTasksForPrompt() {
+      if (tasks.length === 0) return '（任务列表加载中...）';
+      
+      return tasks.map(task => {
+        const labels = task.labels.map(l => l.name);
+        const priority = labels.find(l => ['P0', 'P1', 'P2', 'p0', 'p1', 'p2'].includes(l)) || '未知';
+        const status = labels.find(l => ['待领', '进行中', '已完成'].includes(l)) || '待领';
+        const skills = labels.filter(l => !['P0', 'P1', 'P2', 'p0', 'p1', 'p2', '待领', '进行中', '已完成'].includes(l));
+        
+        return `- #${task.number} ${task.title} | 优先级: ${priority.toUpperCase()} | 状态: ${status} | 技能: ${skills.join(', ') || '无特定要求'}`;
+      }).join('\n');
+    }
+
+    // ==================== UI 辅助 ====================
+    function toggleMenu() {
+      document.getElementById('nav-menu').classList.toggle('show');
+    }
+
+    function showToast(message, type = '') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // 自动调整输入框高度
+    const textarea = document.getElementById('user-input');
+    textarea.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+
+    // ==================== 初始化 ====================
+    updateApiStatus();
+    loadTasks();
+    
+    if (getApiKey()) {
+      document.getElementById('api-setup').classList.add('collapsed');
+      document.getElementById('send-btn').disabled = false;
+    }
+  </script>
+</body>
+</html>
