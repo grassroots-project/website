@@ -664,7 +664,7 @@
       <li><a href="about.html">💡 关于</a></li>
       <li><a href="tasks.html" class="active">📋 任务池</a></li>
       <li><a href="kanban.html">📊 看板</a></li>
-      <li><a href="people.html">👥 人池</a></li>
+      <li><a href="people.html">👥 人才库</a></li>
       <li><a href="resources.html">📦 资源池</a></li>
       <li><a href="assistant.html">🤖 AI 助手</a></li>
       <li><a href="join.html">🚀 加入我们</a></li>
@@ -1144,12 +1144,12 @@
     }
 
     function renderTaskList(tasks, filter = {}) {
-      // 过滤掉 PR 和 人池/资源池
+      // 过滤掉 PR 和 人才库/资源池
       let filteredTasks = tasks.filter(issue => {
         if (issue.pull_request) return false;
-        // 排除人池和资源池
+        // 排除人才库和资源池
         const labels = issue.labels.map(l => l.name);
-        if (labels.includes('人池') || labels.includes('资源池')) return false;
+        if (labels.includes('人才库') || labels.includes('资源池')) return false;
         return true;
       });
 

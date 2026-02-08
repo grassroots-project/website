@@ -488,7 +488,7 @@
       <li><a href="about.html">💡 关于</a></li>
       <li><a href="tasks.html">📋 任务池</a></li>
       <li><a href="kanban.html">📊 看板</a></li>
-      <li><a href="people.html">👥 人池</a></li>
+      <li><a href="people.html">👥 人才库</a></li>
       <li><a href="resources.html">📦 资源池</a></li>
       <li><a href="assistant.html" class="active">🤖 AI 助手</a></li>
       <li><a href="join.html">🚀 加入我们</a></li>
@@ -604,7 +604,7 @@ Grassroots Project 是一个为被低估的个体提供夺回定价权的协作�
 我们的组织方式是一个开放的池塘：
 - **任务池**：开放任务，任何人可以添加和领取
 - **资源池**：比特币、知识、工具、人力
-- **人池**：技能、时间、当前参与、历史贡献
+- **人才库**：技能、时间、当前参与、历史贡献
 
 原则：自由组合 + AI 引导，价值在博弈中发现。不批准，只记录。
 
@@ -617,7 +617,7 @@ Grassroots Project 是一个为被低估的个体提供夺回定价权的协作�
 1. 阅读项目介绍（关于页面）
 2. 回答筛选问卷（加入我们页面）
 3. 发送答案到 xiaoping.tang@gmail.com
-4. 回复后，添加信息到人池
+4. 回复后，添加信息到人才库
 
 ## 技能标签说明
 | 标签 | 说明 |
@@ -641,7 +641,7 @@ Grassroots Project 是一个为被低估的个体提供夺回定价权的协作�
 - 关于：/pages/about.html
 - 任务池：/pages/tasks.html
 - 看板：/pages/kanban.html
-- 人池：/pages/people.html
+- 人才库：/pages/people.html
 - 资源池：/pages/resources.html
 - 加入我们：/pages/join.html
 `;
@@ -879,7 +879,7 @@ ${PROJECT_KNOWLEDGE}
         tasks = issues.filter(issue => {
           if (issue.pull_request) return false;
           const labels = issue.labels.map(l => l.name);
-          if (labels.includes('人池') || labels.includes('资源池')) return false;
+          if (labels.includes('人才库') || labels.includes('资源池')) return false;
           return true;
         });
       } catch (error) {

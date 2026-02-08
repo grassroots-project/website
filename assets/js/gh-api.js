@@ -35,11 +35,11 @@ export async function fetchTasks() {
   }
 }
 
-// 获取人池内容
+// 获取人才库内容
 export async function fetchPeoplePool() {
   try {
     const response = await fetch(
-      `${API_BASE}/issues?state=open&labels=人池`,
+      `${API_BASE}/issues?state=open&labels=人才库`,
       { headers: getHeaders() }
     );
     if (!response.ok) throw new Error('Failed to fetch people pool');

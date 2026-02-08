@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>人池 - Grassroots Project</title>
+  <title>人才库 - Grassroots Project</title>
   <style>
     :root {
       --primary-color: #1a1a1a;
@@ -422,7 +422,7 @@
       <li><a href="about.html">💡 关于</a></li>
       <li><a href="tasks.html">📋 任务池</a></li>
       <li><a href="kanban.html">📊 看板</a></li>
-      <li><a href="people.html" class="active">👥 人池</a></li>
+      <li><a href="people.html" class="active">👥 人才库</a></li>
       <li><a href="resources.html">📦 资源池</a></li>
       <li><a href="assistant.html">🤖 AI 助手</a></li>
       <li><a href="join.html">🚀 加入我们</a></li>
@@ -430,7 +430,7 @@
   </nav>
 
   <div class="container">
-    <h1>👥 人池</h1>
+    <h1>👥 人才库</h1>
 
     <!-- 统计卡片 -->
     <div class="stats-grid" id="stats-grid">
@@ -481,7 +481,7 @@
   <button class="back-to-top hidden" onclick="scrollToTop()" title="返回顶部">↑</button>
 
   <footer>
-    <p>© 2026 Grassroots Project · <a href="https://github.com/grassroots-project/tasks/issues/1" target="_blank">在 GitHub 上编辑人池</a></p>
+    <p>© 2026 Grassroots Project · <a href="https://github.com/grassroots-project/tasks/issues/1" target="_blank">在 GitHub 上编辑人才库</a></p>
   </footer>
 
   <script>
@@ -525,11 +525,11 @@
         if (!response.ok) throw new Error('Failed to fetch');
         const issues = await response.json();
         
-        // 过滤掉 PR 和 人池/资源池
+        // 过滤掉 PR 和 人才库/资源池
         allIssues = issues.filter(issue => {
           if (issue.pull_request) return false;
           const labels = issue.labels.map(l => l.name);
-          if (labels.includes('人池') || labels.includes('资源池')) return false;
+          if (labels.includes('人才库') || labels.includes('资源池')) return false;
           return true;
         });
       } catch (error) {

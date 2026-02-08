@@ -24,7 +24,7 @@
 |------|------|------|
 | 📋 任务池 | 查看开放任务，GitHub 登录后一键领取 | [/pages/tasks.html](https://grassroots-project.github.io/website/pages/tasks.html) |
 | 📊 看板 | 实时查看任务进度（待领/进行中/已完成） | [/pages/kanban.html](https://grassroots-project.github.io/website/pages/kanban.html) |
-| 👥 人池 | 成员信息、技能标签、贡献记录 | [/pages/people.html](https://grassroots-project.github.io/website/pages/people.html) |
+| 👥 人才库 | 成员信息、技能标签、贡献记录 | [/pages/people.html](https://grassroots-project.github.io/website/pages/people.html) |
 | 📦 资源池 | 共享资源（比特币、知识、工具） | [/pages/resources.html](https://grassroots-project.github.io/website/pages/resources.html) |
 
 ### AI 助手
@@ -47,7 +47,7 @@
 
 - **前端**：纯静态 HTML/CSS/JS，无框架依赖
 - **部署**：GitHub Pages
-- **数据**：GitHub Issues API（任务池、人池、资源池）
+- **数据**：GitHub Issues API（任务池、人才库、资源池）
 - **AI**：Kimi (Moonshot) API
 - **Markdown 渲染**：marked.js
 
@@ -80,7 +80,7 @@ python -m http.server 8000
     ├── about.html          # 关于页面
     ├── tasks.html          # 任务池（含登录和领取功能）
     ├── kanban.html         # 看板视图
-    ├── people.html         # 人池
+    ├── people.html         # 人才库
     ├── resources.html      # 资源池
     ├── assistant.html      # AI 助手
     └── join.html           # 加入我们
@@ -91,7 +91,7 @@ python -m http.server 8000
 | 仓库 | 说明 |
 |------|------|
 | [grassroots-project/website](https://github.com/grassroots-project/website) | 本仓库，项目网站 |
-| [grassroots-project/tasks](https://github.com/grassroots-project/tasks) | 任务池、人池、资源池（GitHub Issues） |
+| [grassroots-project/tasks](https://github.com/grassroots-project/tasks) | 任务池、人才库、资源池（GitHub Issues） |
 | [grassroots-project/Grassroots](https://github.com/grassroots-project/Grassroots) | 项目文档和资料 |
 
 ## 如何加入
@@ -99,7 +99,7 @@ python -m http.server 8000
 1. 阅读 [关于页面](https://grassroots-project.github.io/website/pages/about.html)
 2. 完成 [筛选问卷](https://grassroots-project.github.io/website/pages/join.html)
 3. 发送答案到 xiaoping.tang@gmail.com
-4. 收到回复后，添加你的信息到人池
+4. 收到回复后，添加你的信息到人才库
 
 或者直接和 [AI 助手](https://grassroots-project.github.io/website/pages/assistant.html) 对话了解更多。
 
