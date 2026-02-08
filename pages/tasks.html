@@ -135,6 +135,170 @@
       font-size: 2rem;
     }
 
+    /* 认证状态栏 */
+    .auth-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .auth-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .auth-status .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .auth-status .username {
+      font-weight: 500;
+    }
+
+    .btn-login, .btn-logout {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .btn-login {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .btn-login:hover {
+      background: #e8830f;
+    }
+
+    .btn-logout {
+      background: #e0e0e0;
+      color: #666;
+    }
+
+    .btn-logout:hover {
+      background: #d0d0d0;
+    }
+
+    /* 登录弹窗 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    .modal h2 {
+      margin-bottom: 15px;
+    }
+
+    .token-guide {
+      background: var(--light-gray);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+
+    .token-guide h4 {
+      margin-bottom: 10px;
+    }
+
+    .token-guide ol {
+      margin-left: 20px;
+    }
+
+    .token-guide li {
+      margin-bottom: 5px;
+    }
+
+    .token-guide code {
+      background: #e0e0e0;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .token-input-group {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .token-input-group input {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .token-input-group input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+
+    .btn-primary {
+      padding: 12px 24px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: #e8830f;
+    }
+
+    .token-note {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .error-message {
+      color: #d73a4a;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
     .filters {
       display: flex;
       gap: 10px;
@@ -180,9 +344,17 @@
       transform: translateY(-2px);
     }
 
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
     .task-card h3 {
       margin-bottom: 10px;
       font-size: 1.2rem;
+      flex: 1;
     }
 
     .task-card h3 a {
@@ -227,6 +399,74 @@
     .task-assignee {
       color: #666;
       font-size: 0.9rem;
+    }
+
+    /* 任务操作按钮 */
+    .task-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-claim {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-claim:hover {
+      background: #218838;
+      transform: translateY(-1px);
+    }
+
+    .btn-unclaim {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-unclaim:hover {
+      background: #5a6268;
+    }
+
+    .btn-complete {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .btn-complete:hover {
+      background: #e8830f;
+    }
+
+    .btn-disabled {
+      background: #e0e0e0;
+      color: #999;
+      cursor: not-allowed;
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status-badge.in-progress {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .status-badge.completed {
+      background: #e8f5e9;
+      color: #388e3c;
     }
 
     .loading, .no-tasks {
@@ -314,6 +554,39 @@
       display: none;
     }
 
+    /* Toast 通知 */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      background: #333;
+      color: white;
+      border-radius: 8px;
+      z-index: 3000;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .toast.success {
+      background: #28a745;
+    }
+
+    .toast.error {
+      background: #d73a4a;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
     /* 响应式 */
     @media (max-width: 768px) {
       nav {
@@ -368,6 +641,16 @@
         padding: 0 1rem;
       }
 
+      .auth-bar {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .task-header {
+        flex-direction: column;
+      }
+
       .back-to-top {
         bottom: 1rem;
         right: 1rem;
@@ -397,10 +680,16 @@
   <div class="container">
     <h1>🎯 Grassroots 任务池</h1>
 
-    <div class="create-task">
-      <a href="add-task.html">
-        ✨ 添加任务
-      </a>
+    <!-- 认证状态栏 -->
+    <div class="auth-bar">
+      <div id="auth-container">
+        <!-- 由 JS 渲染 -->
+      </div>
+      <div class="create-task">
+        <a href="https://github.com/grassroots-project/tasks/issues/new?template=task.md" target="_blank">
+          ✨ 添加任务
+        </a>
+      </div>
     </div>
 
     <div class="filters">
@@ -422,35 +711,177 @@
     </div>
   </div>
 
-  <button class="back-to-top" onclick="scrollToTop()" title="返回顶部">↑</button>
+  <button class="back-to-top hidden" onclick="scrollToTop()" title="返回顶部">↑</button>
 
   <footer>
     <p>© 2026 Grassroots Project · 为被低估的个体夺回定价权</p>
   </footer>
 
   <script>
-    // 移动端菜单切换
-    function toggleMenu() {
-      const menu = document.getElementById('nav-menu');
-      menu.classList.toggle('show');
+    // ==================== 认证模块 ====================
+    const AUTH_STORAGE_KEY = 'grassroots_github_token';
+    const USER_STORAGE_KEY = 'grassroots_github_user';
+
+    function getToken() {
+      return localStorage.getItem(AUTH_STORAGE_KEY);
     }
 
-    // 返回顶部按钮
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function getUser() {
+      const userJson = localStorage.getItem(USER_STORAGE_KEY);
+      return userJson ? JSON.parse(userJson) : null;
     }
 
-    // 控制返回顶部按钮显示
-    window.addEventListener('scroll', function() {
-      const backToTop = document.querySelector('.back-to-top');
-      if (window.scrollY > 300) {
-        backToTop.classList.remove('hidden');
-      } else {
-        backToTop.classList.add('hidden');
+    function isLoggedIn() {
+      return !!getToken() && !!getUser();
+    }
+
+    async function validateToken(token) {
+      const response = await fetch('https://api.github.com/user', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Token 无效或已过期');
       }
-    });
+      
+      return await response.json();
+    }
 
-    // GitHub API 配置
+    async function login(token) {
+      const user = await validateToken(token);
+      localStorage.setItem(AUTH_STORAGE_KEY, token);
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+      return user;
+    }
+
+    function logout() {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      localStorage.removeItem(USER_STORAGE_KEY);
+    }
+
+    function getAuthHeaders() {
+      const token = getToken();
+      const headers = { 'Accept': 'application/vnd.github.v3+json' };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      return headers;
+    }
+
+    function renderAuthUI() {
+      const container = document.getElementById('auth-container');
+      if (!container) return;
+      
+      if (isLoggedIn()) {
+        const user = getUser();
+        container.innerHTML = `
+          <div class="auth-status logged-in">
+            <img src="${user.avatar_url}" alt="${user.login}" class="avatar">
+            <span class="username">${user.login}</span>
+            <button onclick="handleLogout()" class="btn-logout">登出</button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="auth-status logged-out">
+            <button onclick="showLoginModal()" class="btn-login">🔑 登录 GitHub</button>
+          </div>
+        `;
+      }
+    }
+
+    function createLoginModal() {
+      const existing = document.getElementById('login-modal');
+      if (existing) existing.remove();
+      
+      const modal = document.createElement('div');
+      modal.id = 'login-modal';
+      modal.className = 'modal';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <span class="modal-close" onclick="hideLoginModal()">&times;</span>
+          <h2>🔑 登录 GitHub</h2>
+          <p>输入你的 Personal Access Token (PAT) 以领取任务。</p>
+          
+          <div class="token-guide">
+            <h4>如何获取 Token？</h4>
+            <ol>
+              <li>打开 <a href="https://github.com/settings/tokens/new?description=Grassroots%20Tasks&scopes=public_repo" target="_blank">GitHub Token 页面</a></li>
+              <li>勾选 <code>public_repo</code> 权限</li>
+              <li>点击 "Generate token"</li>
+              <li>复制 token 粘贴到下方</li>
+            </ol>
+          </div>
+          
+          <div class="token-input-group">
+            <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxx" />
+            <button onclick="handleLogin()" class="btn-primary">登录</button>
+          </div>
+          
+          <p class="token-note">
+            ⚠️ Token 仅存储在你的浏览器本地，不会上传到任何服务器。
+          </p>
+          
+          <div id="login-error" class="error-message"></div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      return modal;
+    }
+
+    window.showLoginModal = function() {
+      let modal = document.getElementById('login-modal');
+      if (!modal) {
+        modal = createLoginModal();
+      }
+      modal.style.display = 'flex';
+      document.getElementById('token-input').focus();
+    };
+
+    window.hideLoginModal = function() {
+      const modal = document.getElementById('login-modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    };
+
+    window.handleLogin = async function() {
+      const tokenInput = document.getElementById('token-input');
+      const errorDiv = document.getElementById('login-error');
+      const token = tokenInput.value.trim();
+      
+      if (!token) {
+        errorDiv.textContent = '请输入 Token';
+        return;
+      }
+      
+      errorDiv.textContent = '';
+      tokenInput.disabled = true;
+      
+      try {
+        await login(token);
+        hideLoginModal();
+        renderAuthUI();
+        loadTasks();
+        showToast('登录成功！', 'success');
+      } catch (error) {
+        errorDiv.textContent = 'Token 无效，请检查后重试';
+        tokenInput.disabled = false;
+      }
+    };
+
+    window.handleLogout = function() {
+      logout();
+      renderAuthUI();
+      loadTasks();
+      showToast('已登出');
+    };
+
+    // ==================== 任务操作模块 ====================
     const CONFIG = {
       owner: 'grassroots-project',
       repo: 'tasks'
@@ -458,12 +889,184 @@
 
     const API_BASE = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}`;
 
-    // 获取所有 Issues（任务）
+    async function claimTask(issueNumber) {
+      const user = getUser();
+      
+      // 添加评论
+      await fetch(`${API_BASE}/issues/${issueNumber}/comments`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          body: `🙋 **领取任务**\n\n@${user.login} 领取了这个任务。`
+        })
+      });
+      
+      // 更新标签
+      await updateTaskLabels(issueNumber, ['待领'], ['进行中']);
+      
+      // Assign 给自己
+      await fetch(`${API_BASE}/issues/${issueNumber}/assignees`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ assignees: [user.login] })
+      });
+    }
+
+    async function unclaimTask(issueNumber) {
+      const user = getUser();
+      
+      await fetch(`${API_BASE}/issues/${issueNumber}/comments`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          body: `👋 **放弃任务**\n\n@${user.login} 放弃了这个任务，任务重新开放。`
+        })
+      });
+      
+      await updateTaskLabels(issueNumber, ['进行中'], ['待领']);
+      
+      await fetch(`${API_BASE}/issues/${issueNumber}/assignees`, {
+        method: 'DELETE',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ assignees: [user.login] })
+      });
+    }
+
+    async function completeTask(issueNumber) {
+      const user = getUser();
+      
+      await fetch(`${API_BASE}/issues/${issueNumber}/comments`, {
+        method: 'POST',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          body: `✅ **完成任务**\n\n@${user.login} 标记任务为已完成。`
+        })
+      });
+      
+      await updateTaskLabels(issueNumber, ['进行中', '待领'], ['已完成']);
+    }
+
+    async function updateTaskLabels(issueNumber, removeLabels, addLabels) {
+      const issueResponse = await fetch(`${API_BASE}/issues/${issueNumber}`, {
+        headers: getAuthHeaders()
+      });
+      
+      const issue = await issueResponse.json();
+      const currentLabels = issue.labels.map(l => l.name);
+      
+      const newLabels = currentLabels
+        .filter(label => !removeLabels.includes(label))
+        .concat(addLabels.filter(label => !currentLabels.includes(label)));
+      
+      await fetch(`${API_BASE}/issues/${issueNumber}/labels`, {
+        method: 'PUT',
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ labels: newLabels })
+      });
+    }
+
+    function isTaskAssignee(issue) {
+      if (!isLoggedIn()) return false;
+      const user = getUser();
+      return issue.assignees && issue.assignees.some(a => a.login === user.login);
+    }
+
+    function getTaskStatus(issue) {
+      const labels = issue.labels.map(l => l.name);
+      if (labels.includes('已完成')) return 'completed';
+      if (labels.includes('进行中')) return 'in-progress';
+      return 'open';
+    }
+
+    function renderTaskActions(issue) {
+      if (!isLoggedIn()) {
+        return `<button class="btn-action btn-disabled" disabled>登录后领取</button>`;
+      }
+      
+      const status = getTaskStatus(issue);
+      const isAssignee = isTaskAssignee(issue);
+      
+      if (status === 'completed') {
+        return `<span class="status-badge completed">✅ 已完成</span>`;
+      }
+      
+      if (status === 'in-progress') {
+        if (isAssignee) {
+          return `
+            <button class="btn-action btn-complete" onclick="handleCompleteTask(${issue.number}, event)">✅ 完成</button>
+            <button class="btn-action btn-unclaim" onclick="handleUnclaimTask(${issue.number}, event)">👋 放弃</button>
+          `;
+        } else {
+          const assignee = issue.assignees[0]?.login || '未知';
+          return `<span class="status-badge in-progress">🔄 ${assignee} 进行中</span>`;
+        }
+      }
+      
+      return `<button class="btn-action btn-claim" onclick="handleClaimTask(${issue.number}, event)">🙋 领取</button>`;
+    }
+
+    window.handleClaimTask = async function(issueNumber, event) {
+      event.stopPropagation();
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = '领取中...';
+      
+      try {
+        await claimTask(issueNumber);
+        showToast('任务领取成功！', 'success');
+        loadTasks();
+      } catch (error) {
+        showToast('领取失败: ' + error.message, 'error');
+        btn.disabled = false;
+        btn.textContent = '🙋 领取';
+      }
+    };
+
+    window.handleUnclaimTask = async function(issueNumber, event) {
+      event.stopPropagation();
+      if (!confirm('确定放弃这个任务吗？')) return;
+      
+      try {
+        await unclaimTask(issueNumber);
+        showToast('已放弃任务', 'success');
+        loadTasks();
+      } catch (error) {
+        showToast('操作失败: ' + error.message, 'error');
+      }
+    };
+
+    window.handleCompleteTask = async function(issueNumber, event) {
+      event.stopPropagation();
+      if (!confirm('确定标记任务为已完成吗？')) return;
+      
+      try {
+        await completeTask(issueNumber);
+        showToast('任务已完成！🎉', 'success');
+        loadTasks();
+      } catch (error) {
+        showToast('操作失败: ' + error.message, 'error');
+      }
+    };
+
+    // ==================== Toast 通知 ====================
+    function showToast(message, type = '') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // ==================== 任务列表 ====================
     async function fetchTasks() {
       try {
         const response = await fetch(
           `${API_BASE}/issues?state=open&sort=created&direction=desc&per_page=100`,
-          { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+          { headers: getAuthHeaders() }
         );
         if (!response.ok) throw new Error('Failed to fetch tasks');
         return await response.json();
@@ -473,18 +1076,12 @@
       }
     }
 
-    // 解析任务标签
     function parseTaskLabels(labels) {
-      const result = {
-        priority: null,
-        status: null,
-        skills: []
-      };
+      const result = { priority: null, status: null, skills: [] };
 
       for (const label of labels) {
         const name = label.name;
         const nameLower = name.toLowerCase();
-        // 兼容大小写：P0/p0, P1/p1, P2/p2
         if (['p0', 'p1', 'p2'].includes(nameLower)) {
           result.priority = nameLower;
         } else if (['待领', '进行中', '已完成'].includes(name)) {
@@ -497,16 +1094,8 @@
       return result;
     }
 
-    // 从任务描述中提取字段
     function parseTaskDescription(body) {
-      const result = {
-        description: '',
-        skills: '',
-        time: '',
-        links: '',
-        assignee: ''
-      };
-
+      const result = { description: '', skills: '', time: '', links: '', assignee: '' };
       if (!body) return result;
 
       const lines = body.split('\n');
@@ -517,21 +1106,11 @@
           currentSection = line.slice(3).trim();
         } else if (currentSection && line.trim()) {
           switch (currentSection) {
-            case '任务描述':
-              result.description += line + '\n';
-              break;
-            case '技能要求':
-              result.skills = line.trim();
-              break;
-            case '预期时间':
-              result.time = line.trim();
-              break;
-            case '相关链接':
-              result.links = line.trim();
-              break;
-            case '领取':
-              result.assignee = line.trim();
-              break;
+            case '任务描述': result.description += line + '\n'; break;
+            case '技能要求': result.skills = line.trim(); break;
+            case '预期时间': result.time = line.trim(); break;
+            case '相关链接': result.links = line.trim(); break;
+            case '领取': result.assignee = line.trim(); break;
           }
         }
       }
@@ -539,53 +1118,39 @@
       return result;
     }
 
-    // 渲染任务卡片
     function renderTaskCard(issue) {
       const labels = parseTaskLabels(issue.labels);
       const details = parseTaskDescription(issue.body);
 
-      const priorityColors = {
-        p0: 'bg-red-500',
-        p1: 'bg-yellow-500',
-        p2: 'bg-green-500'
-      };
-
-      const priorityText = {
-        p0: '必须先做',
-        p1: '重要不紧急',
-        p2: '探索性'
-      };
-
-      const statusColors = {
-        待领: 'bg-purple-500',
-        进行中: 'bg-green-500',
-        已完成: 'bg-gray-500'
-      };
+      const priorityColors = { p0: 'bg-red-500', p1: 'bg-yellow-500', p2: 'bg-green-500' };
+      const priorityText = { p0: '必须先做', p1: '重要不紧急', p2: '探索性' };
+      const statusColors = { 待领: 'bg-purple-500', 进行中: 'bg-green-500', 已完成: 'bg-gray-500' };
 
       return `
         <div class="task-card">
-          <h3><a href="${issue.html_url}" target="_blank">${issue.title}</a></h3>
-          <div class="task-meta">
-            <span class="priority ${priorityColors[labels.priority] || 'bg-gray-500'}">
-              ${priorityText[labels.priority] || '未知优先级'}
-            </span>
-            <span class="status ${statusColors[labels.status] || 'bg-gray-500'}">
-              ${labels.status || '待领'}
-            </span>
-            ${labels.skills.length > 0 ? `
-              <span class="skills">
-                ${labels.skills.join(', ')}
-              </span>
-            ` : ''}
+          <div class="task-header">
+            <div class="task-info">
+              <h3><a href="${issue.html_url}" target="_blank">${issue.title}</a></h3>
+              <div class="task-meta">
+                <span class="priority ${priorityColors[labels.priority] || 'bg-gray-500'}">
+                  ${priorityText[labels.priority] || '未知优先级'}
+                </span>
+                <span class="status ${statusColors[labels.status] || 'bg-gray-500'}">
+                  ${labels.status || '待领'}
+                </span>
+                ${labels.skills.length > 0 ? `<span class="skills">${labels.skills.join(', ')}</span>` : ''}
+              </div>
+              ${details.time ? `<div class="task-time">⏱ ${details.time}</div>` : ''}
+              ${details.description ? `<div class="task-description">${details.description.trim()}</div>` : ''}
+            </div>
+            <div class="task-actions">
+              ${renderTaskActions(issue)}
+            </div>
           </div>
-          ${details.time ? `<div class="task-time">⏱ ${details.time}</div>` : ''}
-          ${details.description ? `<div class="task-description">${details.description.trim()}</div>` : ''}
-          ${details.assignee ? `<div class="task-assignee">👤 ${details.assignee}</div>` : ''}
         </div>
       `;
     }
 
-    // 渲染任务列表
     function renderTaskList(tasks, filter = {}) {
       let filteredTasks = tasks.filter(issue => !issue.pull_request);
 
@@ -601,12 +1166,6 @@
         );
       }
 
-      if (filter.skill) {
-        filteredTasks = filteredTasks.filter(issue =>
-          issue.labels.some(label => label.name === filter.skill)
-        );
-      }
-
       if (filteredTasks.length === 0) {
         return '<div class="no-tasks">没有找到任务</div>';
       }
@@ -617,36 +1176,69 @@
     let currentFilter = {};
     let allTasks = [];
 
-    // 加载任务
     async function loadTasks() {
       const taskList = document.getElementById('task-list');
+      taskList.innerHTML = '<div class="loading">加载任务中...</div>';
       allTasks = await fetchTasks();
       taskList.innerHTML = renderTaskList(allTasks, currentFilter);
     }
 
-    // 过滤按钮点击事件
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        // 更新按钮状态
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // 设置过滤条件
         const filterType = btn.dataset.filter;
         if (filterType === 'all') {
           currentFilter = {};
         } else {
-          currentFilter = {
-            [filterType]: btn.dataset.value
-          };
+          currentFilter = { [filterType]: btn.dataset.value };
         }
 
-        // 重新渲染
         document.getElementById('task-list').innerHTML = renderTaskList(allTasks, currentFilter);
       });
     });
 
-    // 初始加载
+    // ==================== UI 辅助 ====================
+    function toggleMenu() {
+      const menu = document.getElementById('nav-menu');
+      menu.classList.toggle('show');
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('scroll', function() {
+      const backToTop = document.querySelector('.back-to-top');
+      if (window.scrollY > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('login-modal');
+      if (e.target === modal) {
+        hideLoginModal();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const modal = document.getElementById('login-modal');
+        if (modal && modal.style.display === 'flex') {
+          handleLogin();
+        }
+      }
+      if (e.key === 'Escape') {
+        hideLoginModal();
+      }
+    });
+
+    // ==================== 初始化 ====================
+    renderAuthUI();
     loadTasks();
   </script>
 </body>
