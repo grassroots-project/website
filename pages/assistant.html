@@ -499,15 +499,15 @@
     <!-- API Key 设置 -->
     <div id="api-setup" class="api-setup">
       <div class="api-header" onclick="toggleApiSetup()">
-        <h3>🔑 Kimi API 设置</h3>
+        <h3>🔑 Kimi Code API 设置</h3>
         <span id="api-status" class="api-status disconnected">未连接</span>
       </div>
       <div class="api-body">
         <div class="api-guide">
           <strong>如何获取 API Key？</strong>
           <ol>
-            <li>访问 <a href="https://platform.moonshot.cn/console/api-keys" target="_blank">Moonshot 控制台</a></li>
-            <li>注册/登录后，创建 API Key</li>
+            <li>访问 <a href="https://kimi.moonshot.cn/more/member" target="_blank">Kimi 会员页面</a></li>
+            <li>获取 Kimi Code API Key</li>
             <li>复制 Key 粘贴到下方</li>
           </ol>
           <p style="margin-top:8px;color:#666;">⚠️ Key 仅存储在你的浏览器本地，不会上传到任何服务器。</p>
@@ -553,8 +553,8 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     // ==================== 配置 ====================
-    const API_URL = 'https://api.moonshot.cn/v1/chat/completions';
-    const MODEL = 'moonshot-v1-8k';
+    const API_URL = 'https://api.kimi.com/coding/v1/chat/completions';
+    const MODEL = 'kimi-for-coding';
     const STORAGE_KEY = 'grassroots_kimi_api_key';
 
     // ==================== 项目知识库 ====================
@@ -749,7 +749,7 @@ ${PROJECT_KNOWLEDGE}
               ...messages
             ],
             temperature: 0.7,
-            max_tokens: 1000
+            max_tokens: 4096
           })
         });
 
