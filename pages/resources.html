@@ -12,7 +12,7 @@
       --text-color: #333333;
       --light-gray: #f5f5f5;
       --border-color: #e0e0e0;
-      --nav-bg: rgba(255, 255, 255, 0.95);
+      --nav-bg: rgba(255,255,255,0.95);
       --green: #11998e;
     }
 
@@ -104,7 +104,7 @@
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.95);
       padding: 20px;
       border-radius: 12px;
       text-align: center;
@@ -138,7 +138,7 @@
 
     .filter-btn {
       padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255,255,255,0.9);
       border: 2px solid transparent;
       border-radius: 20px;
       cursor: pointer;
@@ -162,7 +162,7 @@
     }
 
     .resource-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.95);
       padding: 22px;
       border-radius: 16px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.1);
@@ -238,12 +238,6 @@
       border-top: 1px solid var(--border-color);
     }
 
-    .resource-meta span {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
     .resource-links {
       margin-top: 12px;
     }
@@ -266,66 +260,24 @@
       transform: translateY(-2px);
     }
 
-    /* 使用指南 */
-    .guide-card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      margin-top: 20px;
-    }
-
-    .guide-card h2 {
-      color: var(--primary-color);
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .guide-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .guide-step {
-      padding: 15px;
-      background: var(--light-gray);
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .guide-step .step-num {
-      width: 30px;
-      height: 30px;
-      background: var(--green);
-      color: white;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .guide-step .step-title {
-      font-weight: 600;
-      color: var(--primary-color);
-    }
-
-    .guide-step .step-desc {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 5px;
-    }
-
     .loading {
       text-align: center;
       padding: 60px;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255,255,255,0.9);
       font-size: 1.2rem;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header-bar h2 {
+      color: white;
+      font-size: 1.3rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
 
     .edit-link {
@@ -342,23 +294,10 @@
       background: #e8830f;
     }
 
-    .header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .header-bar h2 {
-      color: white;
-      font-size: 1.3rem;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    }
-
     footer {
       text-align: center;
       padding: 2rem;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255,255,255,0.8);
     }
 
     footer a { color: white; }
@@ -422,13 +361,13 @@
     </div>
     <ul id="nav-menu">
       <li><a href="../index.html">🏠 首页</a></li>
-      <li><a href="about.html">💡 关于</a></li>
-      <li><a href="tasks.html">📋 任务池</a></li>
-      <li><a href="kanban.html">📊 看板</a></li>
-      <li><a href="people.html">👥 人才库</a></li>
-      <li><a href="resources.html" class="active">📦 资源池</a></li>
-      <li><a href="assistant.html">🤖 AI 助手</a></li>
-      <li><a href="join.html">🚀 加入我们</a></li>
+      <li><a href="../about.html">💡 关于</a></li>
+      <li><a href="../tasks.html">📋 任务池</a></li>
+      <li><a href="../kanban.html">📊 看板</a></li>
+      <li><a href="../people.html">👥 人才库</a></li>
+      <li><a href="../resources.html" class="active">📦 资源池</a></li>
+      <li><a href="../assistant.html">🤖 AI 助手</a></li>
+      <li><a href="../join.html">🚀 加入我们</a></li>
     </ul>
   </nav>
 
@@ -469,36 +408,9 @@
       <h2>📋 资源列表</h2>
       <a href="https://github.com/grassroots-project/tasks/issues/2" target="_blank" class="edit-link">✏️ 编辑</a>
     </div>
-    
+
     <div id="resources-grid" class="resources-grid">
       <div class="loading" style="grid-column: 1/-1; background: rgba(255,255,255,0.9); border-radius: 12px;">加载中...</div>
-    </div>
-
-    <!-- 使用指南 -->
-    <div class="guide-card">
-      <h2>📖 如何使用资源</h2>
-      <div class="guide-steps">
-        <div class="guide-step">
-          <div class="step-num">1</div>
-          <div class="step-title">了解资源</div>
-          <div class="step-desc">查看资源列表和使用说明</div>
-        </div>
-        <div class="guide-step">
-          <div class="step-num">2</div>
-          <div class="step-title">沟通确认</div>
-          <div class="step-desc">与资源负责人联系</div>
-        </div>
-        <div class="guide-step">
-          <div class="step-num">3</div>
-          <div class="step-title">记录使用</div>
-          <div class="step-desc">在资源池登记使用情况</div>
-        </div>
-        <div class="guide-step">
-          <div class="step-num">4</div>
-          <div class="step-title">更新状态</div>
-          <div class="step-desc">使用后及时更新状态</div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -508,7 +420,104 @@
     <p>© 2026 Grassroots Project · <a href="https://github.com/grassroots-project/tasks/issues/2" target="_blank">在 GitHub 上编辑资源池</a></p>
   </footer>
 
-  <script>
+  <script type="module">
+    import { fetchResourcePool, parseResourcePool } from '../assets/js/gh-api.js';
+
+    let resources = [];
+    let currentFilter = 'all';
+
+    async function loadAll() {
+      try {
+        const poolData = await fetchResourcePool();
+        if (poolData) {
+          resources = parseResourcePool(poolData.body);
+        }
+        renderStats();
+        renderResources();
+      } catch (error) {
+        console.error('Failed to load resources:', error);
+      }
+    }
+
+    function getResourceIcon(type) {
+      if (type.includes('比特币') || type.includes('资金')) return '💰';
+      if (type.includes('知识')) return '📚';
+      if (type.includes('工具')) return '🔧';
+      if (type.includes('人力')) return '👤';
+      return '📦';
+    }
+
+    function getStatusClass(status) {
+      if (status.includes('可用')) return 'available';
+      if (status.includes('占用') || status.includes('使用中')) return 'occupied';
+      if (status.includes('待规划') || status.includes('暂停')) return 'pending';
+      return 'available';
+    }
+
+    function renderStats() {
+      const total = resources.length;
+      const available = resources.filter(r => r.status.includes('可用')).length;
+      const occupied = resources.filter(r => r.status.includes('占用') || r.status.includes('使用中')).length;
+      const pending = resources.filter(r => r.status.includes('待规划') || r.status.includes('暂停')).length;
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-available').textContent = available;
+      document.getElementById('stat-occupied').textContent = occupied;
+      document.getElementById('stat-pending').textContent = pending;
+    }
+
+    function renderResources() {
+      const container = document.getElementById('resources-grid');
+
+      let filtered = resources;
+      if (currentFilter !== 'all') {
+        filtered = resources.filter(r => r.type.includes(currentFilter));
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1;text-align:center;padding:40px;background:rgba(255,255,255,0.9);border-radius:12px;">暂无资源</div>';
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(resource => {
+        const icon = getResourceIcon(resource.type);
+        const statusClass = getStatusClass(resource.status);
+
+        html += `
+          <div class="resource-card">
+            <div class="resource-header">
+              <h3>${icon} ${resource.name}</h3>
+              <span class="resource-status ${statusClass}">${resource.status}</span>
+            </div>
+            <div class="resource-type">${resource.type || '其他'}</div>
+            <div class="resource-desc">${resource.description}</div>
+            <div class="resource-meta">
+              <span>👤 ${resource.owner || '未指定'}</span>
+              ${resource.instructions ? `<span>📝 ${resource.instructions.slice(0, 30)}${resource.instructions.length > 30 ? '...' : ''}</span>` : ''}
+            </div>
+            ${resource.link ? `
+              <div class="resource-links">
+                <a href="${resource.link}" target="_blank">🔗 链接</a>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // 筛选按钮事件
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderResources();
+      });
+    });
+
     function toggleMenu() {
       document.getElementById('nav-menu').classList.toggle('show');
     }
@@ -526,195 +535,8 @@
       }
     });
 
-    const API_URL = 'https://api.github.com/repos/grassroots-project/tasks/issues/2';
-    let allResources = [];
-    let currentFilter = 'all';
-
-    // 解析资源列表
-    function parseResources(markdown) {
-      const resources = [];
-      const lines = markdown.split('\n');
-      let currentResource = null;
-      let inResourceList = false;
-
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-
-        // 检测资源列表区域
-        if (line.includes('## 资源列表')) {
-          inResourceList = true;
-          continue;
-        }
-
-        // 离开资源列表区域
-        if (inResourceList && line.startsWith('## ') && !line.includes('资源列表')) {
-          inResourceList = false;
-          if (currentResource) {
-            resources.push(currentResource);
-            currentResource = null;
-          }
-          continue;
-        }
-
-        if (!inResourceList) continue;
-
-        // 新资源开始
-        if (line.startsWith('### ')) {
-          if (currentResource) {
-            resources.push(currentResource);
-          }
-          currentResource = {
-            name: line.slice(4).trim(),
-            type: '',
-            description: '',
-            status: '可用',
-            owner: '',
-            usage: '',
-            links: []
-          };
-          continue;
-        }
-
-        if (!currentResource) continue;
-
-        // 解析资源属性
-        if (line.startsWith('- **资源类型**：')) {
-          currentResource.type = line.split('：')[1]?.trim() || '';
-        } else if (line.startsWith('- **描述**：')) {
-          currentResource.description = line.split('：')[1]?.trim() || '';
-        } else if (line.startsWith('- **当前状态**：')) {
-          currentResource.status = line.split('：')[1]?.trim() || '可用';
-        } else if (line.startsWith('- **负责人**：')) {
-          currentResource.owner = line.split('：')[1]?.trim() || '';
-        } else if (line.startsWith('- **使用说明**：')) {
-          currentResource.usage = line.split('：').slice(1).join('：').trim() || '';
-        } else if (line.includes('http') && currentResource) {
-          const urlMatch = line.match(/(https?:\/\/[^\s\)]+)/);
-          if (urlMatch) {
-            currentResource.links.push(urlMatch[1]);
-          }
-        }
-      }
-
-      if (currentResource) {
-        resources.push(currentResource);
-      }
-
-      return resources;
-    }
-
-    // 获取资源图标
-    function getResourceIcon(type) {
-      if (type.includes('比特币') || type.includes('资金')) return '💰';
-      if (type.includes('知识')) return '📚';
-      if (type.includes('工具')) return '🔧';
-      if (type.includes('人力')) return '👤';
-      return '📦';
-    }
-
-    // 获取状态类名
-    function getStatusClass(status) {
-      if (status.includes('可用')) return 'available';
-      if (status.includes('占用') || status.includes('使用中')) return 'occupied';
-      if (status.includes('待规划') || status.includes('暂停')) return 'pending';
-      return 'available';
-    }
-
-    // 渲染统计
-    function renderStats() {
-      const total = allResources.length;
-      const available = allResources.filter(r => r.status.includes('可用')).length;
-      const occupied = allResources.filter(r => r.status.includes('占用') || r.status.includes('使用中')).length;
-      const pending = allResources.filter(r => r.status.includes('待规划') || r.status.includes('暂停')).length;
-
-      document.getElementById('stat-total').textContent = total;
-      document.getElementById('stat-available').textContent = available;
-      document.getElementById('stat-occupied').textContent = occupied;
-      document.getElementById('stat-pending').textContent = pending;
-    }
-
-    // 渲染资源列表
-    function renderResources() {
-      const container = document.getElementById('resources-grid');
-      
-      let filtered = allResources;
-      if (currentFilter !== 'all') {
-        filtered = allResources.filter(r => r.type.includes(currentFilter));
-      }
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;background:rgba(255,255,255,0.9);border-radius:12px;">暂无资源</div>';
-        return;
-      }
-
-      let html = '';
-      filtered.forEach(resource => {
-        const icon = getResourceIcon(resource.type);
-        const statusClass = getStatusClass(resource.status);
-        
-        html += `
-          <div class="resource-card">
-            <div class="resource-header">
-              <h3>${icon} ${resource.name}</h3>
-              <span class="resource-status ${statusClass}">${resource.status}</span>
-            </div>
-            <div class="resource-type">${resource.type || '其他'}</div>
-            <div class="resource-desc">${resource.description}</div>
-            <div class="resource-meta">
-              <span>👤 ${resource.owner || '未指定'}</span>
-              ${resource.usage ? `<span>📝 ${resource.usage.slice(0, 30)}${resource.usage.length > 30 ? '...' : ''}</span>` : ''}
-            </div>
-            ${resource.links.length > 0 ? `
-              <div class="resource-links">
-                ${resource.links.slice(0, 3).map((link, i) => `<a href="${link}" target="_blank">🔗 链接${resource.links.length > 1 ? i + 1 : ''}</a>`).join('')}
-              </div>
-            ` : ''}
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    // 加载资源池数据
-    async function loadResources() {
-      try {
-        const response = await fetch(API_URL, {
-          headers: { 'Accept': 'application/vnd.github.v3+json' }
-        });
-
-        if (!response.ok) throw new Error('Failed to fetch');
-
-        const issue = await response.json();
-        allResources = parseResources(issue.body);
-        
-        renderStats();
-        renderResources();
-      } catch (error) {
-        console.error('Failed to load resources:', error);
-        document.getElementById('resources-grid').innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;padding:40px;background:rgba(255,255,255,0.9);border-radius:12px;">
-            加载失败，<a href="https://github.com/grassroots-project/tasks/issues/2" target="_blank">点击直接访问 GitHub</a>
-          </div>
-        `;
-      }
-    }
-
-    // 筛选按钮事件
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.dataset.filter;
-        renderResources();
-      });
-    });
-
-    // 初始化
-    loadResources();
-
-    // 每 30 秒刷新
-    setInterval(loadResources, 30000);
+    loadAll();
+    setInterval(loadAll, 30000);
   </script>
 </body>
 </html>

@@ -12,7 +12,7 @@
       --text-color: #333333;
       --light-gray: #f5f5f5;
       --border-color: #e0e0e0;
-      --nav-bg: rgba(255, 255, 255, 0.95);
+      --nav-bg: rgba(255,255,255,0.95);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -103,7 +103,7 @@
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.95);
       padding: 20px;
       border-radius: 12px;
       text-align: center;
@@ -134,7 +134,7 @@
     }
 
     .pool-card {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.95);
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.15);
@@ -350,7 +350,7 @@
     footer {
       text-align: center;
       padding: 2rem;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255,255,255,0.8);
     }
 
     footer a { color: white; }
@@ -419,13 +419,13 @@
     </div>
     <ul id="nav-menu">
       <li><a href="../index.html">🏠 首页</a></li>
-      <li><a href="about.html">💡 关于</a></li>
-      <li><a href="tasks.html">📋 任务池</a></li>
-      <li><a href="kanban.html">📊 看板</a></li>
+      <li><a href="../about.html">💡 关于</a></li>
+      <li><a href="../tasks.html">📋 任务池</a></li>
+      <li><a href="../kanban.html">📊 看板</a></li>
       <li><a href="people.html" class="active">👥 人才库</a></li>
-      <li><a href="resources.html">📦 资源池</a></li>
-      <li><a href="assistant.html">🤖 AI 助手</a></li>
-      <li><a href="join.html">🚀 加入我们</a></li>
+      <li><a href="../resources.html">📦 资源池</a></li>
+      <li><a href="../assistant.html">🤖 AI 助手</a></li>
+      <li><a href="../join.html">🚀 加入我们</a></li>
     </ul>
   </nav>
 
@@ -439,16 +439,16 @@
         <div class="label">成员</div>
       </div>
       <div class="stat-card highlight">
-        <div class="number" id="stat-in-progress">-</div>
-        <div class="label">进行中</div>
+        <div class="number" id="stat-active">-</div>
+        <div class="label">活跃中</div>
       </div>
       <div class="stat-card">
         <div class="number" id="stat-completed">-</div>
         <div class="label">已完成</div>
       </div>
       <div class="stat-card">
-        <div class="number" id="stat-open">-</div>
-        <div class="label">待领取</div>
+        <div class="number" id="stat-time">-</div>
+        <div class="label">总投入</div>
       </div>
     </div>
 
@@ -484,7 +484,186 @@
     <p>© 2026 Grassroots Project · <a href="https://github.com/grassroots-project/tasks/issues/1" target="_blank">在 GitHub 上编辑人才库</a></p>
   </footer>
 
-  <script>
+  <script type="module">
+    import { fetchPeoplePool, parsePeoplePool } from '../assets/js/gh-api.js';
+
+    const API_BASE = 'https://api.github.com/repos/grassroots-project/tasks';
+    let poolData = null;
+    let members = [];
+    let events = [];
+
+    async function loadAll() {
+      await Promise.all([loadPool(), loadEvents()]);
+      renderStats();
+      renderMembers();
+      renderActivity();
+    }
+
+    async function loadPool() {
+      try {
+        poolData = await fetchPeoplePool();
+        if (poolData) {
+          members = parsePeoplePool(poolData.body);
+        }
+      } catch (error) {
+        console.error('Failed to load people pool:', error);
+      }
+    }
+
+    async function loadEvents() {
+      try {
+        const response = await fetch(`${API_BASE}/issues/events?per_page=50`, {
+          headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (!response.ok) throw new Error('Failed to fetch');
+        events = await response.json();
+      } catch (error) {
+        console.error('Failed to load events:', error);
+        events = [];
+      }
+    }
+
+    function renderStats() {
+      const total = members.length;
+      const active = members.filter(m => m.current !== '-' && m.current !== '无').length;
+      const completed = members.reduce((sum, m) => {
+        const count = (m.history || '').split(/#(\d+)/).length - 1;
+        return sum + (count > 0 ? count : 0);
+      }, 0);
+
+      const totalTime = members.reduce((sum, m) => {
+        const match = m.time.match(/(\d+)/);
+        if (match) return sum + parseInt(match[1]);
+        return sum;
+      }, 0);
+
+      document.getElementById('stat-members').textContent = total || 1;
+      document.getElementById('stat-active').textContent = active;
+      document.getElementById('stat-completed').textContent = completed;
+      document.getElementById('stat-time').textContent = totalTime > 0 ? `${totalTime}h` : '-';
+    }
+
+    function renderMembers() {
+      const container = document.getElementById('member-list');
+
+      if (members.length === 0) {
+        container.innerHTML = `
+          <div class="member-card">
+            <div class="member-header">
+              <div class="member-avatar">T</div>
+              <div class="member-info">
+                <h3>Tang</h3>
+                <div class="join-date">发起人 · 2026-02-08</div>
+              </div>
+            </div>
+            <div class="member-tasks">
+              <span style="color:#666;font-size:0.9rem;">项目发起、战略规划</span>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      members.forEach(member => {
+        const initial = member.name.charAt(0).toUpperCase();
+        const taskCount = (member.history || '').split('#').length - 1;
+
+        html += `
+          <div class="member-card">
+            <div class="member-header">
+              <div class="member-avatar">${initial}</div>
+              <div class="member-info">
+                <h3>${member.name}</h3>
+                <div class="join-date">${taskCount > 0 ? `${taskCount} 个任务` : '等待任务'}</div>
+              </div>
+            </div>
+            <div class="member-tasks">
+              ${member.current !== '-' && member.current !== '无' ? `
+                <span class="task-badge in-progress">
+                  🔄 ${member.current}
+                </span>
+              ` : ''}
+              ${member.history ? `
+                <span class="task-badge completed">
+                  ✅ ${member.history}
+                </span>
+              ` : ''}
+            </div>
+            <div class="member-skills">
+              ${member.skills.split(',').map(skill => `
+                <span class="skill-tag">${skill.trim()}</span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderActivity() {
+      const container = document.getElementById('activity-feed');
+
+      const relevantEvents = events.filter(e =>
+        ['assigned', 'closed'].includes(e.event) &&
+        e.issue && !e.issue.pull_request
+      ).slice(0, 20);
+
+      if (relevantEvents.length === 0) {
+        container.innerHTML = '<div class="no-activity">暂无活动记录</div>';
+        return;
+      }
+
+      let html = '';
+      relevantEvents.forEach(event => {
+        const time = formatTime(event.created_at);
+        let icon = '', action = '';
+
+        switch (event.event) {
+          case 'assigned':
+            icon = '<div class="activity-icon claim">🙋</div>';
+            action = `<span class="actor">${event.actor?.login || '未知'}</span> 领取了 <a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number}</a>`;
+            break;
+          case 'closed':
+            icon = '<div class="activity-icon complete">✅</div>';
+            action = `<span class="actor">${event.actor?.login || '未知'}</span> 完成了 <a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number}</a>`;
+            break;
+          default:
+            return;
+        }
+
+        html += `
+          <div class="activity-item">
+            ${icon}
+            <div class="activity-content">
+              <div>${action}</div>
+              <div class="activity-time">${time}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function formatTime(isoString) {
+      const date = new Date(isoString);
+      const now = new Date();
+      const diff = now - date;
+
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+
+      if (minutes < 1) return '刚刚';
+      if (minutes < 60) return `${minutes} 分钟前`;
+      if (hours < 24) return `${hours} 小时前`;
+      if (days < 7) return `${days} 天前`;
+
+      return date.toLocaleDateString('zh-CN');
+    }
+
     function toggleMenu() {
       document.getElementById('nav-menu').classList.toggle('show');
     }
@@ -502,261 +681,7 @@
       }
     });
 
-    const API_BASE = 'https://api.github.com/repos/grassroots-project/tasks';
-
-    // 数据缓存
-    let allIssues = [];
-    let allEvents = [];
-
-    // 加载所有数据
-    async function loadAll() {
-      await Promise.all([loadIssues(), loadEvents()]);
-      renderStats();
-      renderMembers();
-      renderActivity();
-    }
-
-    // 加载所有 Issues
-    async function loadIssues() {
-      try {
-        const response = await fetch(`${API_BASE}/issues?state=all&per_page=100`, {
-          headers: { 'Accept': 'application/vnd.github.v3+json' }
-        });
-        if (!response.ok) throw new Error('Failed to fetch');
-        const issues = await response.json();
-        
-        // 过滤掉 PR 和 人才库/资源池
-        allIssues = issues.filter(issue => {
-          if (issue.pull_request) return false;
-          const labels = issue.labels.map(l => l.name);
-          if (labels.includes('人才库') || labels.includes('资源池')) return false;
-          return true;
-        });
-      } catch (error) {
-        console.error('Failed to load issues:', error);
-      }
-    }
-
-    // 加载最近事件
-    async function loadEvents() {
-      try {
-        const response = await fetch(`${API_BASE}/issues/events?per_page=50`, {
-          headers: { 'Accept': 'application/vnd.github.v3+json' }
-        });
-        if (!response.ok) throw new Error('Failed to fetch');
-        allEvents = await response.json();
-      } catch (error) {
-        console.error('Failed to load events:', error);
-        allEvents = [];
-      }
-    }
-
-    // 渲染统计
-    function renderStats() {
-      const inProgress = allIssues.filter(i => 
-        i.labels.some(l => l.name === '进行中')
-      ).length;
-      
-      const completed = allIssues.filter(i => 
-        i.labels.some(l => l.name === '已完成') || i.state === 'closed'
-      ).length;
-      
-      const open = allIssues.filter(i => 
-        i.state === 'open' && i.labels.some(l => l.name === '待领')
-      ).length;
-      
-      // 获取唯一成员数
-      const members = new Set();
-      allIssues.forEach(issue => {
-        issue.assignees.forEach(a => members.add(a.login));
-      });
-      
-      document.getElementById('stat-members').textContent = members.size || 1;
-      document.getElementById('stat-in-progress').textContent = inProgress;
-      document.getElementById('stat-completed').textContent = completed;
-      document.getElementById('stat-open').textContent = open;
-    }
-
-    // 渲染成员列表
-    function renderMembers() {
-      const container = document.getElementById('member-list');
-      
-      // 按 assignee 分组
-      const memberMap = new Map();
-      
-      allIssues.forEach(issue => {
-        const status = getIssueStatus(issue);
-        
-        issue.assignees.forEach(assignee => {
-          if (!memberMap.has(assignee.login)) {
-            memberMap.set(assignee.login, {
-              login: assignee.login,
-              avatar: assignee.avatar_url,
-              inProgress: [],
-              completed: []
-            });
-          }
-          
-          const member = memberMap.get(assignee.login);
-          const taskInfo = {
-            number: issue.number,
-            title: issue.title,
-            url: issue.html_url
-          };
-          
-          if (status === 'completed') {
-            member.completed.push(taskInfo);
-          } else if (status === 'in-progress') {
-            member.inProgress.push(taskInfo);
-          }
-        });
-      });
-      
-      // 如果没有成员，显示默认
-      if (memberMap.size === 0) {
-        container.innerHTML = `
-          <div class="member-card">
-            <div class="member-header">
-              <div class="member-avatar">T</div>
-              <div class="member-info">
-                <h3>Tang</h3>
-                <div class="join-date">发起人 · 2026-02-08</div>
-              </div>
-            </div>
-            <div class="member-tasks">
-              <span style="color:#666;font-size:0.9rem;">项目发起、战略规划</span>
-            </div>
-          </div>
-        `;
-        return;
-      }
-      
-      // 渲染成员卡片
-      let html = '';
-      memberMap.forEach((member, login) => {
-        const initial = login.charAt(0).toUpperCase();
-        const totalTasks = member.inProgress.length + member.completed.length;
-        
-        html += `
-          <div class="member-card">
-            <div class="member-header">
-              <img src="${member.avatar}" alt="${login}" class="member-avatar" style="background:none;">
-              <div class="member-info">
-                <h3>${login}</h3>
-                <div class="join-date">${totalTasks} 个任务</div>
-              </div>
-            </div>
-            <div class="member-tasks">
-              ${member.inProgress.map(t => `
-                <a href="${t.url}" target="_blank" class="task-badge in-progress">
-                  🔄 #${t.number} ${truncate(t.title, 20)}
-                </a>
-              `).join('')}
-              ${member.completed.map(t => `
-                <a href="${t.url}" target="_blank" class="task-badge completed">
-                  ✅ #${t.number} ${truncate(t.title, 20)}
-                </a>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      });
-      
-      container.innerHTML = html;
-    }
-
-    // 渲染活动流
-    function renderActivity() {
-      const container = document.getElementById('activity-feed');
-      
-      // 过滤有意义的事件
-      const relevantEvents = allEvents.filter(e => 
-        ['assigned', 'labeled', 'closed'].includes(e.event) &&
-        e.issue && !e.issue.pull_request
-      ).slice(0, 20);
-      
-      if (relevantEvents.length === 0) {
-        container.innerHTML = '<div class="no-activity">暂无活动记录</div>';
-        return;
-      }
-      
-      let html = '';
-      relevantEvents.forEach(event => {
-        const time = formatTime(event.created_at);
-        let icon = '', action = '';
-        
-        switch (event.event) {
-          case 'assigned':
-            icon = '<div class="activity-icon claim">🙋</div>';
-            action = `<span class="actor">${event.actor?.login || '未知'}</span> 领取了 <a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number} ${truncate(event.issue.title, 25)}</a>`;
-            break;
-          case 'closed':
-            icon = '<div class="activity-icon complete">✅</div>';
-            action = `<span class="actor">${event.actor?.login || '未知'}</span> 完成了 <a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number} ${truncate(event.issue.title, 25)}</a>`;
-            break;
-          case 'labeled':
-            if (event.label?.name === '进行中') {
-              icon = '<div class="activity-icon claim">🔄</div>';
-              action = `<a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number}</a> 状态变为 <strong>进行中</strong>`;
-            } else if (event.label?.name === '已完成') {
-              icon = '<div class="activity-icon complete">🎉</div>';
-              action = `<a href="${event.issue.html_url}" target="_blank" class="task-link">#${event.issue.number}</a> 状态变为 <strong>已完成</strong>`;
-            } else {
-              return;
-            }
-            break;
-          default:
-            return;
-        }
-        
-        html += `
-          <div class="activity-item">
-            ${icon}
-            <div class="activity-content">
-              <div>${action}</div>
-              <div class="activity-time">${time}</div>
-            </div>
-          </div>
-        `;
-      });
-      
-      container.innerHTML = html || '<div class="no-activity">暂无活动记录</div>';
-    }
-
-    // 辅助函数
-    function getIssueStatus(issue) {
-      if (issue.state === 'closed') return 'completed';
-      const labels = issue.labels.map(l => l.name);
-      if (labels.includes('已完成')) return 'completed';
-      if (labels.includes('进行中')) return 'in-progress';
-      return 'open';
-    }
-
-    function truncate(str, len) {
-      return str.length > len ? str.slice(0, len) + '...' : str;
-    }
-
-    function formatTime(isoString) {
-      const date = new Date(isoString);
-      const now = new Date();
-      const diff = now - date;
-      
-      const minutes = Math.floor(diff / 60000);
-      const hours = Math.floor(diff / 3600000);
-      const days = Math.floor(diff / 86400000);
-      
-      if (minutes < 1) return '刚刚';
-      if (minutes < 60) return `${minutes} 分钟前`;
-      if (hours < 24) return `${hours} 小时前`;
-      if (days < 7) return `${days} 天前`;
-      
-      return date.toLocaleDateString('zh-CN');
-    }
-
-    // 初始化
     loadAll();
-    
-    // 每 30 秒自动刷新
     setInterval(loadAll, 30000);
   </script>
 </body>
