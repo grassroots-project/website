@@ -8,17 +8,28 @@
 </head>
 <body>
   <nav>
-    <div class="logo">Grassroots Project</div>
-    <ul>
-      <li><a href="index.html">首页</a></li>
-      <li><a href="about.html">关于</a></li>
-      <li><a href="tasks.html">任务池</a></li>
-      <li><a href="kanban.html">看板</a></li>
-      <li><a href="join.html">加入我们</a></li>
+    <a href="index.html" class="logo">🌱 Grassroots Project</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-menu">
+      <li><a href="index.html">🏠 首页</a></li>
+      <li><a href="about.html">💡 关于</a></li>
+      <li><a href="tasks.html">📋 任务池</a></li>
+      <li><a href="kanban.html">📊 看板</a></li>
+      <li><a href="join.html" class="active">🚀 加入我们</a></li>
     </ul>
   </nav>
 
   <main>
+    <div class="breadcrumb">
+      <a href="index.html">首页</a>
+      <span>›</span>
+      <span>加入我们</span>
+    </div>
+
     <h1>加入我们</h1>
 
     <p>这条路没有确定的回报，但有真实的机会。</p>
@@ -27,26 +38,32 @@
 
     <h2>你能得到什么？</h2>
 
-    <h3>短期（1-3个月）</h3>
-    <ul class="bullet-list">
-      <li>技能提升：通过协作学习</li>
-      <li>认知升级：AI辅助理解复杂问题</li>
-      <li>真实连接：找到同频的人</li>
-    </ul>
+    <div class="card">
+      <h3>🌱 短期（1-3个月）</h3>
+      <ul class="bullet-list">
+        <li>技能提升：通过协作学习</li>
+        <li>认知升级：AI辅助理解复杂问题</li>
+        <li>真实连接：找到同频的人</li>
+      </ul>
+    </div>
 
-    <h3>中期（3-6个月）</h3>
-    <ul class="bullet-list">
-      <li>从被动到主动：自己找事做</li>
-      <li>可见的进步：贡献记录上链</li>
-      <li>协作网络：与他人深度协作</li>
-    </ul>
+    <div class="card">
+      <h3>🌿 中期（3-6个月）</h3>
+      <ul class="bullet-list">
+        <li>从被动到主动：自己找事做</li>
+        <li>可见的进步：贡献记录上链</li>
+        <li>协作网络：与他人深度协作</li>
+      </ul>
+    </div>
 
-    <h3>长期（6个月+）</h3>
-    <ul class="bullet-list">
-      <li>非线性成长：三条腿相乘的机会</li>
-      <li>身份认同：不可篡改的贡献历史</li>
-      <li>参与更大的事：从个人到共同体</li>
-    </ul>
+    <div class="card">
+      <h3>🌳 长期（6个月+）</h3>
+      <ul class="bullet-list">
+        <li>非线性成长：三条腿相乘的机会</li>
+        <li>身份认同：不可篡改的贡献历史</li>
+        <li>参与更大的事：从个人到共同体</li>
+      </ul>
+    </div>
 
     <hr>
 
@@ -73,31 +90,31 @@
     <p>请认真回答以下问题：</p>
 
     <div class="card">
-      <h3>问题 1</h3>
+      <h3>❓ 问题 1</h3>
       <p>如果参与三个月没有任何可见回报，你还会继续吗？</p>
       <p><em>（请简单说明你的想法）</em></p>
     </div>
 
     <div class="card">
-      <h3>问题 2</h3>
+      <h3>❓ 问题 2</h3>
       <p>这里没有明确任务分配，你会主动找事情做吗？</p>
       <p><em>（请举一个你主动做事情的例子）</em></p>
     </div>
 
     <div class="card">
-      <h3>问题 3</h3>
+      <h3>❓ 问题 3</h3>
       <p>如果项目方向中途调整，你能接受吗？</p>
       <p><em>（请说说你对不确定性的态度）</em></p>
     </div>
 
     <div class="card">
-      <h3>问题 4</h3>
+      <h3>❓ 问题 4</h3>
       <p>每周你愿意投入多少时间？</p>
       <p><em>（请给出一个真实的数字）</em></p>
     </div>
 
     <div class="card">
-      <h3>问题 5</h3>
+      <h3>❓ 问题 5</h3>
       <p>你会什么？想学什么？</p>
       <p><em>（技能标签 + 学习方向）</em></p>
     </div>
@@ -107,12 +124,21 @@
     <h2>如何开始？</h2>
 
     <ol>
-      <li>回答以上筛选问题</li>
-      <li>发送你的答案到：<strong>xiaoping.tang@gmail.com</strong></li>
-      <li>我们会在 2-3 天内回复你</li>
+      <li><strong>回答以上筛选问题</strong></li>
+      <li><strong>发送你的答案</strong>到：<code>xiaoping.tang@gmail.com</code></li>
+      <li>我们会在 <strong>2-3 天内</strong>回复你</li>
       <li>加入任务池，选择你想做的任务</li>
       <li>开始协作，更新任务进度</li>
     </ol>
+
+    <hr>
+
+    <div class="card" style="background: linear-gradient(135deg, #f7931a20, #f7931a40);">
+      <h3>📧 联系方式</h3>
+      <p><strong>邮箱：</strong>xiaoping.tang@gmail.com</p>
+      <p><strong>标题：</strong>加入 Grassroots - [你的名字]</p>
+      <p><strong>内容：</strong>你对上述5个问题的回答</p>
+    </div>
 
     <hr>
 
@@ -122,13 +148,42 @@
 
     <p>如果需要确定性，请离开这里。</p>
 
-    <p>如果愿意和我们一起构建，<strong>欢迎</strong>。</p>
+    <p>如果愿意和我们一起构建，<strong class="highlight">欢迎</strong>。</p>
 
-    <p class="highlight">期待与你相见。</p>
+    <p class="highlight" style="font-size: 1.2rem;">期待与你相见 🌱</p>
+
+    <hr>
+
+    <a href="tasks.html" class="btn">📋 查看任务池</a>
   </main>
 
+  <button class="back-to-top" onclick="scrollToTop()" title="返回顶部">↑</button>
+
   <footer>
-    <p>© 2026 Grassroots Project</p>
+    <p>© 2026 Grassroots Project · 为被低估的个体夺回定价权</p>
   </footer>
+
+  <script>
+    // 移动端菜单切换
+    function toggleMenu() {
+      const menu = document.getElementById('nav-menu');
+      menu.classList.toggle('show');
+    }
+
+    // 返回顶部按钮
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 控制返回顶部按钮显示
+    window.addEventListener('scroll', function() {
+      const backToTop = document.querySelector('.back-to-top');
+      if (window.scrollY > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+  </script>
 </body>
 </html>

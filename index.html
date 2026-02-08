@@ -8,25 +8,60 @@
 </head>
 <body>
   <nav>
-    <div class="logo">Grassroots Project</div>
-    <ul>
-      <li><a href="index.html">首页</a></li>
-      <li><a href="about.html">关于</a></li>
-      <li><a href="tasks.html">任务池</a></li>
-      <li><a href="kanban.html">看板</a></li>
-      <li><a href="join.html">加入我们</a></li>
+    <a href="index.html" class="logo">🌱 Grassroots Project</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-menu">
+      <li><a href="index.html" class="active">🏠 首页</a></li>
+      <li><a href="about.html">💡 关于</a></li>
+      <li><a href="tasks.html">📋 任务池</a></li>
+      <li><a href="kanban.html">📊 看板</a></li>
+      <li><a href="join.html">🚀 加入我们</a></li>
     </ul>
   </nav>
 
   <main>
-    <h1>价值不是被赋予的，是被发现的</h1>
+    <h1>价值不是被赋予的<br>是被发现的</h1>
 
     <p>为被低估的个体提供夺回定价权的协作基础。</p>
 
     <p>构建一个价值被发现的网络，让每个参与者都能通过协作获得<span class="highlight">非线性成长</span>。</p>
 
-    <a href="join.html" class="btn">加入我们</a>
-    <a href="about.html" class="btn btn-outline">了解更多</a>
+    <a href="join.html" class="btn">🚀 加入我们</a>
+    <a href="about.html" class="btn btn-outline">💡 了解更多</a>
+
+    <hr>
+
+    <h2>快速开始</h2>
+
+    <div class="quick-links">
+      <a href="tasks.html" class="quick-link">
+        <span class="icon">📋</span>
+        <span class="title">任务池</span>
+        <span class="desc">查看开放任务，认领你感兴趣的项目</span>
+      </a>
+
+      <a href="kanban.html" class="quick-link">
+        <span class="icon">📊</span>
+        <span class="title">任务看板</span>
+        <span class="desc">实时查看任务进度和协作状态</span>
+      </a>
+
+      <a href="about.html" class="quick-link">
+        <span class="icon">💡</span>
+        <span class="title">了解我们</span>
+        <span class="desc">价值观、愿景和组织方式</span>
+      </a>
+
+      <a href="join.html" class="quick-link">
+        <span class="icon">🚀</span>
+        <span class="title">加入我们</span>
+        <span class="desc">筛选问卷，找到你的位置</span>
+      </a>
+    </div>
 
     <hr>
 
@@ -86,8 +121,33 @@
     <p>如果愿意和我们一起构建，<a href="join.html">欢迎</a>。</p>
   </main>
 
+  <button class="back-to-top" onclick="scrollToTop()" title="返回顶部">↑</button>
+
   <footer>
-    <p>© 2026 Grassroots Project</p>
+    <p>© 2026 Grassroots Project · 为被低估的个体夺回定价权</p>
   </footer>
+
+  <script>
+    // 移动端菜单切换
+    function toggleMenu() {
+      const menu = document.getElementById('nav-menu');
+      menu.classList.toggle('show');
+    }
+
+    // 返回顶部按钮
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 控制返回顶部按钮显示
+    window.addEventListener('scroll', function() {
+      const backToTop = document.querySelector('.back-to-top');
+      if (window.scrollY > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+  </script>
 </body>
 </html>

@@ -8,17 +8,28 @@
 </head>
 <body>
   <nav>
-    <div class="logo">Grassroots Project</div>
-    <ul>
-      <li><a href="index.html">首页</a></li>
-      <li><a href="about.html">关于</a></li>
-      <li><a href="tasks.html">任务池</a></li>
-      <li><a href="kanban.html">看板</a></li>
-      <li><a href="join.html">加入我们</a></li>
+    <a href="index.html" class="logo">🌱 Grassroots Project</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-menu">
+      <li><a href="index.html">🏠 首页</a></li>
+      <li><a href="about.html" class="active">💡 关于</a></li>
+      <li><a href="tasks.html">📋 任务池</a></li>
+      <li><a href="kanban.html">📊 看板</a></li>
+      <li><a href="join.html">🚀 加入我们</a></li>
     </ul>
   </nav>
 
   <main>
+    <div class="breadcrumb">
+      <a href="index.html">首页</a>
+      <span>›</span>
+      <span>关于</span>
+    </div>
+
     <h1>关于 Grassroots</h1>
 
     <h2>使命</h2>
@@ -114,11 +125,37 @@
 
     <hr>
 
-    <a href="join.html" class="btn">加入我们</a>
+    <a href="join.html" class="btn">🚀 加入我们</a>
+    <a href="tasks.html" class="btn btn-outline">📋 查看任务</a>
   </main>
 
+  <button class="back-to-top" onclick="scrollToTop()" title="返回顶部">↑</button>
+
   <footer>
-    <p>© 2026 Grassroots Project</p>
+    <p>© 2026 Grassroots Project · 为被低估的个体夺回定价权</p>
   </footer>
+
+  <script>
+    // 移动端菜单切换
+    function toggleMenu() {
+      const menu = document.getElementById('nav-menu');
+      menu.classList.toggle('show');
+    }
+
+    // 返回顶部按钮
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 控制返回顶部按钮显示
+    window.addEventListener('scroll', function() {
+      const backToTop = document.querySelector('.back-to-top');
+      if (window.scrollY > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+  </script>
 </body>
 </html>

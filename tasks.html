@@ -28,6 +28,7 @@
       text-align: center;
       margin-bottom: 30px;
       color: #1a1a1a;
+      font-size: 2rem;
     }
 
     .filters {
@@ -45,12 +46,14 @@
       border-radius: 20px;
       cursor: pointer;
       transition: all 0.3s;
+      font-size: 0.9rem;
     }
 
     .filter-btn:hover, .filter-btn.active {
       background: #f7931a;
       color: white;
       border-color: #f7931a;
+      transform: translateY(-2px);
     }
 
     .task-list {
@@ -61,8 +64,16 @@
     .task-card {
       background: white;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border: 2px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .task-card:hover {
+      border-color: #f7931a;
+      box-shadow: 0 4px 12px rgba(247, 147, 26, 0.2);
+      transform: translateY(-2px);
     }
 
     .task-card h3 {
@@ -91,12 +102,16 @@
       border-radius: 12px;
       color: white;
       font-size: 0.85rem;
+      font-weight: 500;
     }
 
     .task-time {
       color: #666;
       font-size: 0.9rem;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
     }
 
     .task-description {
@@ -116,8 +131,22 @@
       color: #666;
     }
 
+    .loading::before {
+      content: '⏳';
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .no-tasks::before {
+      content: '📭';
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
     .bg-red-500 { background: #d73a4a; }
-    .bg-yellow-500 { background: #fbca04; }
+    .bg-yellow-500 { background: #fbca04; color: #1a1a1a; }
     .bg-green-500 { background: #008672; }
     .bg-purple-500 { background: #7057ff; }
     .bg-gray-500 { background: #6e7781; }
@@ -128,22 +157,30 @@
     }
 
     .create-task a {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       padding: 12px 24px;
       background: #f7931a;
       color: white;
       text-decoration: none;
-      border-radius: 4px;
-      font-weight: bold;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: all 0.3s;
     }
 
     .create-task a:hover {
       background: #e8830f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
     }
 
     .footer-note {
       text-align: center;
       margin-top: 30px;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 8px;
       color: #666;
       font-size: 0.9rem;
     }
@@ -151,6 +188,26 @@
     .footer-note a {
       color: #f7931a;
       text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .filters {
+        gap: 8px;
+      }
+
+      .filter-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -160,17 +217,17 @@
 
     <div class="create-task">
       <a href="https://github.com/grassroots-project/tasks/issues/new?template=task_template.md" target="_blank">
-        + 添加任务
+        ✨ 添加任务
       </a>
     </div>
 
     <div class="filters">
       <button class="filter-btn active" data-filter="all">全部</button>
-      <button class="filter-btn" data-filter="priority" data-value="p0">P0 必须先做</button>
-      <button class="filter-btn" data-filter="priority" data-value="p1">P1 重要</button>
-      <button class="filter-btn" data-filter="priority" data-value="p2">P2 探索</button>
-      <button class="filter-btn" data-filter="status" data-value="待领">待领</button>
-      <button class="filter-btn" data-filter="status" data-value="进行中">进行中</button>
+      <button class="filter-btn" data-filter="priority" data-value="p0">🔥 P0 必须先做</button>
+      <button class="filter-btn" data-filter="priority" data-value="p1">⭐ P1 重要</button>
+      <button class="filter-btn" data-filter="priority" data-value="p2">🔍 P2 探索</button>
+      <button class="filter-btn" data-filter="status" data-value="待领">📝 待领</button>
+      <button class="filter-btn" data-filter="status" data-value="进行中">🔄 进行中</button>
     </div>
 
     <div id="task-list" class="task-list">
@@ -178,7 +235,7 @@
     </div>
 
     <div class="footer-note">
-      <p>任务池基于 <a href="https://github.com/grassroots-project/tasks" target="_blank">GitHub Issues</a> 构建</p>
+      <p>📊 任务池基于 <a href="https://github.com/grassroots-project/tasks" target="_blank">GitHub Issues</a> 构建</p>
       <p><a href="kanban.html">📋 查看看板视图</a></p>
     </div>
   </div>
@@ -325,7 +382,7 @@
 
       if (filter.priority) {
         filteredTasks = filteredTasks.filter(issue =>
-          issue.labels.some(label => label.name === filter.priority)
+          issue.labels.some(label => label.name.toLowerCase() === filter.priority)
         );
       }
 
@@ -342,7 +399,7 @@
       }
 
       if (filteredTasks.length === 0) {
-        return '<p class="no-tasks">没有找到任务</p>';
+        return '<div class="no-tasks">没有找到任务</div>';
       }
 
       return filteredTasks.map(issue => renderTaskCard(issue)).join('');
