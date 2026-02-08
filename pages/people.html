@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人池 - Grassroots Project</title>
+  <style>
+    :root {
+      --primary-color: #1a1a1a;
+      --accent-color: #f7931a;
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --light-gray: #f5f5f5;
+      --border-color: #e0e0e0;
+      --nav-bg: rgba(255, 255, 255, 0.95);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.8rem 2rem;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    nav .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: all 0.3s;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 2px;
+      background: var(--primary-color);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 100px 1.5rem 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .pool-card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      margin-bottom: 20px;
+    }
+
+    .pool-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .pool-header h2 {
+      color: var(--primary-color);
+      font-size: 1.5rem;
+    }
+
+    .edit-link {
+      padding: 8px 16px;
+      background: var(--accent-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .edit-link:hover {
+      background: #e8830f;
+      transform: translateY(-2px);
+    }
+
+    .pool-content {
+      line-height: 1.8;
+    }
+
+    .pool-content h2, .pool-content h3, .pool-content h4 {
+      margin-top: 25px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    .pool-content h2 { font-size: 1.4rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px; }
+    .pool-content h3 { font-size: 1.2rem; }
+    .pool-content h4 { font-size: 1rem; color: #666; }
+
+    .pool-content p { margin-bottom: 12px; }
+
+    .pool-content ul, .pool-content ol {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+
+    .pool-content li { margin-bottom: 8px; }
+
+    .pool-content a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    .pool-content a:hover { text-decoration: underline; }
+
+    .pool-content code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.9em;
+    }
+
+    .pool-content pre {
+      background: #1a1a1a;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+
+    .pool-content pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .pool-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+
+    .pool-content th, .pool-content td {
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .pool-content th {
+      background: var(--light-gray);
+      font-weight: 600;
+    }
+
+    .pool-content hr {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 25px 0;
+    }
+
+    .pool-content blockquote {
+      border-left: 4px solid var(--accent-color);
+      padding-left: 15px;
+      margin: 15px 0;
+      color: #666;
+      font-style: italic;
+    }
+
+    .member-card {
+      background: var(--light-gray);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 15px 0;
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .member-card h3 {
+      margin-top: 0 !important;
+      color: var(--primary-color);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.2rem;
+    }
+
+    .error {
+      text-align: center;
+      padding: 40px;
+      color: #d73a4a;
+      background: white;
+      border-radius: 12px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    footer a { color: white; }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 45px;
+      height: 45px;
+      background: white;
+      color: #667eea;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      z-index: 100;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-2px);
+    }
+
+    .back-to-top.hidden { display: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0.8rem 1rem; }
+      nav .logo { font-size: 1.2rem; }
+      .hamburger { display: flex; }
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--nav-bg);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0;
+      }
+      nav ul.show { display: flex; }
+      nav ul li { width: 100%; }
+      nav ul li a { padding: 0.8rem 1rem; display: block; }
+      h1 { font-size: 1.6rem; }
+      .container { padding: 100px 1rem 40px; }
+      .pool-card { padding: 20px; }
+      .pool-header { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="logo">🌱 Grassroots Project</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul id="nav-menu">
+      <li><a href="../index.html">🏠 首页</a></li>
+      <li><a href="about.html">💡 关于</a></li>
+      <li><a href="tasks.html">📋 任务池</a></li>
+      <li><a href="kanban.html">📊 看板</a></li>
+      <li><a href="people.html" class="active">👥 人池</a></li>
+      <li><a href="resources.html">📦 资源池</a></li>
+      <li><a href="join.html">🚀 加入我们</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>👥 人池</h1>
+
+    <div id="pool-content" class="pool-card">
+      <div class="loading">加载中...</div>
+    </div>
+  </div>
+
+  <button class="back-to-top hidden" onclick="scrollToTop()" title="返回顶部">↑</button>
+
+  <footer>
+    <p>© 2026 Grassroots Project · <a href="https://github.com/grassroots-project/tasks/issues/1" target="_blank">在 GitHub 上查看</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav-menu').classList.toggle('show');
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('scroll', function() {
+      const backToTop = document.querySelector('.back-to-top');
+      if (window.scrollY > 300) {
+        backToTop.classList.remove('hidden');
+      } else {
+        backToTop.classList.add('hidden');
+      }
+    });
+
+    const ISSUE_NUMBER = 1; // 人池 Issue
+    const API_URL = `https://api.github.com/repos/grassroots-project/tasks/issues/${ISSUE_NUMBER}`;
+
+    async function loadPool() {
+      const container = document.getElementById('pool-content');
+      
+      try {
+        const response = await fetch(API_URL, {
+          headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch');
+        
+        const issue = await response.json();
+        const htmlContent = marked.parse(issue.body);
+        
+        container.innerHTML = `
+          <div class="pool-header">
+            <h2>${issue.title}</h2>
+            <a href="${issue.html_url}" target="_blank" class="edit-link">✏️ 编辑</a>
+          </div>
+          <div class="pool-content">
+            ${htmlContent}
+          </div>
+        `;
+      } catch (error) {
+        container.innerHTML = `
+          <div class="error">
+            <p>加载失败</p>
+            <p><a href="https://github.com/grassroots-project/tasks/issues/${ISSUE_NUMBER}" target="_blank">点击直接访问 GitHub</a></p>
+          </div>
+        `;
+      }
+    }
+
+    loadPool();
+  </script>
+</body>
+</html>

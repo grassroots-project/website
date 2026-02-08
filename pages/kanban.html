@@ -363,6 +363,8 @@
       <li><a href="about.html">💡 关于</a></li>
       <li><a href="tasks.html">📋 任务池</a></li>
       <li><a href="kanban.html" class="active">📊 看板</a></li>
+      <li><a href="people.html">👥 人池</a></li>
+      <li><a href="resources.html">📦 资源池</a></li>
       <li><a href="join.html">🚀 加入我们</a></li>
     </ul>
   </nav>
@@ -474,7 +476,13 @@
 
     async function loadKanban() {
       const tasks = await fetchTasks();
-      const tasksOnly = tasks.filter(issue => !issue.pull_request);
+      const tasksOnly = tasks.filter(issue => {
+        if (issue.pull_request) return false;
+        // 排除人池和资源池
+        const labels = issue.labels.map(l => l.name);
+        if (labels.includes('人池') || labels.includes('资源池')) return false;
+        return true;
+      });
 
       const columns = {
         待领: [],
