@@ -145,6 +145,7 @@
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      gap: 15px;
     }
 
     .auth-status {
@@ -163,13 +164,18 @@
       font-weight: 500;
     }
 
-    .btn-login, .btn-logout {
+    .btn-login, .btn-logout, .btn-add-task {
       padding: 8px 16px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.9rem;
+      font-weight: 500;
       transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     .btn-login {
@@ -188,6 +194,15 @@
 
     .btn-logout:hover {
       background: #d0d0d0;
+    }
+
+    .btn-add-task {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-add-task:hover {
+      background: #218838;
     }
 
     /* 登录弹窗 */
@@ -481,30 +496,6 @@
     .bg-purple-500 { background: #7057ff; }
     .bg-gray-500 { background: #6e7781; }
 
-    .create-task {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .create-task a {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 12px 24px;
-      background: var(--accent-color);
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .create-task a:hover {
-      background: #e8830f;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
-    }
-
     .footer-note {
       text-align: center;
       margin-top: 30px;
@@ -688,11 +679,9 @@
       <div id="auth-container">
         <!-- 由 JS 渲染 -->
       </div>
-      <div class="create-task">
-        <a href="https://github.com/grassroots-project/tasks/issues/new?template=task.md" target="_blank">
-          ✨ 添加任务
-        </a>
-      </div>
+      <a href="https://github.com/grassroots-project/tasks/issues/new?template=task.md" target="_blank" class="btn-add-task">
+        ✨ 添加任务
+      </a>
     </div>
 
     <div class="filters">
