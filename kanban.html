@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>看板 - Grassroots Project</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1a1a1a;
+    }
+
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .column {
+      background: #e8e8e8;
+      padding: 15px;
+      border-radius: 8px;
+      min-height: 400px;
+    }
+
+    .column-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .column h2 {
+      font-size: 1.1rem;
+      color: #1a1a1a;
+    }
+
+    .task-count {
+      background: #666;
+      color: white;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+    }
+
+    .task-card {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .task-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .task-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+
+    .task-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      color: white;
+    }
+
+    .p0 { background: #d73a4a; }
+    .p1 { background: #fbca04; }
+    .p2 { background: #008672; }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .empty {
+      text-align: center;
+      color: #999;
+      padding: 20px;
+      font-style: italic;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 30px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .footer-note a {
+      color: #f7931a;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .kanban {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 任务看板</h1>
+
+  <div class="kanban">
+    <div class="column">
+      <div class="column-header">
+        <h2>📝 待领</h2>
+        <span class="task-count" id="count-待领">0</span>
+      </div>
+      <div id="column-待领"></div>
+    </div>
+
+    <div class="column">
+      <div class="column-header">
+        <h2>🔄 进行中</h2>
+        <span class="task-count" id="count-进行中">0</span>
+      </div>
+      <div id="column-进行中"></div>
+    </div>
+
+    <div class="column">
+      <div class="column-header">
+        <h2>✅ 已完成</h2>
+        <span class="task-count" id="count-已完成">0</span>
+      </div>
+      <div id="column-已完成"></div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <p>看板基于 <a href="https://github.com/grassroots-project/tasks" target="_blank">GitHub Issues</a> 构建</p>
+    <p><a href="tasks.html">📋 返回任务池</a></p>
+  </div>
+
+  <script>
+    const CONFIG = {
+      owner: 'grassroots-project',
+      repo: 'tasks'
+    };
+
+    const API_BASE = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}`;
+
+    async function fetchTasks() {
+      try {
+        const response = await fetch(
+          `${API_BASE}/issues?state=all&per_page=100`,
+          { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+        );
+        return await response.json();
+      } catch (error) {
+        console.error('Error:', error);
+        return [];
+      }
+    }
+
+    function parseTaskLabels(labels) {
+      const result = { priority: null, status: null, skills: [] };
+      for (const label of labels) {
+        if (['p0', 'p1', 'p2'].includes(label.name)) {
+          result.priority = label.name;
+        } else if (['待领', '进行中', '已完成'].includes(label.name)) {
+          result.status = label.name;
+        }
+      }
+      return result;
+    }
+
+    function renderTaskCard(issue) {
+      const labels = parseTaskLabels(issue.labels);
+      return `
+        <div class="task-card" onclick="window.open('${issue.html_url}', '_blank')">
+          <div class="task-title">${issue.title}</div>
+          <div class="task-meta">
+            ${labels.priority ? `<span class="badge ${labels.priority}">${labels.priority}</span>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadKanban() {
+      const tasks = await fetchTasks();
+      const tasksOnly = tasks.filter(issue => !issue.pull_request);
+
+      const columns = {
+        待领: [],
+        进行中: [],
+        已完成: []
+      };
+
+      for (const task of tasksOnly) {
+        const labels = parseTaskLabels(task.labels);
+        const status = labels.status || '待领';
+        columns[status].push(task);
+      }
+
+      for (const [status, tasks] of Object.entries(columns)) {
+        const column = document.getElementById(`column-${status}`);
+        const count = document.getElementById(`count-${status}`);
+
+        count.textContent = tasks.length;
+
+        if (tasks.length === 0) {
+          column.innerHTML = '<div class="empty">暂无任务</div>';
+        } else {
+          column.innerHTML = tasks.map(renderTaskCard).join('');
+        }
+      }
+    }
+
+    loadKanban();
+    // 每 30 秒刷新一次
+    setInterval(loadKanban, 30000);
+  </script>
+</body>
+</html>
