@@ -62,32 +62,17 @@ export async function fetchResourcePool() {
 
 // 解析人才库 Markdown
 export function parsePeoplePool(markdown) {
-  const lines = markdown.split('\n');
+  // 提取成员区域：从 "## 成员" 或 "## 现有成员" 到下一个 "---" 或 "##"
+  const memberSectionMatch = markdown.match(/^##\s+(成员|现有成员)\s*\n([\s\S]*?)(?=\n---|\n##\s|$)/m);
+  if (!memberSectionMatch) {
+    return [];
+  }
+
+  const memberSection = memberSectionMatch[2];
   const members = [];
   let currentMember = null;
-  let inMemberSection = false;
 
-  for (const line of lines) {
-    // 检测成员区域开始
-    if (line.match(/^##\s+(成员|现有成员)/)) {
-      inMemberSection = true;
-      continue;
-    }
-    
-    // 检测成员区域结束（遇到下一个 ## 标题或 ---）
-    if (inMemberSection && (line.match(/^##\s+/) || line === '---')) {
-      inMemberSection = false;
-      // 保存最后一个成员
-      if (currentMember) {
-        members.push(currentMember);
-        currentMember = null;
-      }
-      continue;
-    }
-
-    // 只在成员区域内解析
-    if (!inMemberSection) continue;
-
+  for (const line of memberSection.split('\n')) {
     if (line.startsWith('### ')) {
       // 保存上一个成员
       if (currentMember) {
@@ -103,23 +88,25 @@ export function parsePeoplePool(markdown) {
         history: ''
       };
     } else if (currentMember && line.includes('：')) {
-      const [key, value] = line.split('：');
-      const trimmedKey = key.trim().replace(/\*\*/g, '').replace(/^-\s*/, '');
-      switch (trimmedKey) {
+      const colonIndex = line.indexOf('：');
+      const key = line.substring(0, colonIndex).trim().replace(/\*\*/g, '').replace(/^-\s*/, '');
+      const value = line.substring(colonIndex + 1).trim();
+      
+      switch (key) {
         case '加入时间':
-          currentMember.joined = value.trim();
+          currentMember.joined = value;
           break;
         case '技能标签':
-          currentMember.skills = value.trim();
+          currentMember.skills = value;
           break;
         case '时间承诺':
-          currentMember.time = value.trim();
+          currentMember.time = value;
           break;
         case '当前任务':
-          currentMember.current = value.trim();
+          currentMember.current = value;
           break;
         case '历史贡献':
-          currentMember.history = value.trim();
+          currentMember.history = value;
           break;
       }
     }
