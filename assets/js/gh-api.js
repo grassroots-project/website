@@ -23,18 +23,16 @@ function getHeaders() {
 // 获取人才库（从数据文件）
 export async function fetchPeoplePool() {
   try {
+    // 直接用 raw URL 获取内容，避免 base64 解码问题
     const response = await fetch(
-      `${API_BASE}/contents/data/people.md`,
-      { headers: getHeaders() }
+      `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/data/people.md`
     );
     if (!response.ok) throw new Error('Failed to fetch people data');
-    const data = await response.json();
-    // 解码 base64 内容
-    const content = atob(data.content);
+    const content = await response.text();
     return {
       body: content,
-      html_url: `${data.html_url}`,
-      updated_at: data.updated_at
+      html_url: `https://github.com/${CONFIG.owner}/${CONFIG.repo}/blob/main/data/people.md`,
+      updated_at: new Date().toISOString()
     };
   } catch (error) {
     console.error('Error fetching people pool:', error);
@@ -45,18 +43,16 @@ export async function fetchPeoplePool() {
 // 获取资源池（从数据文件）
 export async function fetchResourcePool() {
   try {
+    // 直接用 raw URL 获取内容，避免 base64 解码问题
     const response = await fetch(
-      `${API_BASE}/contents/data/resources.md`,
-      { headers: getHeaders() }
+      `https://raw.githubusercontent.com/${CONFIG.owner}/${CONFIG.repo}/main/data/resources.md`
     );
     if (!response.ok) throw new Error('Failed to fetch resource data');
-    const data = await response.json();
-    // 解码 base64 内容
-    const content = atob(data.content);
+    const content = await response.text();
     return {
       body: content,
-      html_url: `${data.html_url}`,
-      updated_at: data.updated_at
+      html_url: `https://github.com/${CONFIG.owner}/${CONFIG.repo}/blob/main/data/resources.md`,
+      updated_at: new Date().toISOString()
     };
   } catch (error) {
     console.error('Error fetching resource pool:', error);
