@@ -22,10 +22,10 @@
 
 | 页面 | 功能 | 链接 |
 |------|------|------|
-| 📋 任务池 | 查看开放任务，GitHub 登录后一键领取 | [/pages/tasks.html](https://grassroots-project.github.io/website/pages/tasks.html) |
-| 📊 看板 | 实时查看任务进度（待领/进行中/已完成） | [/pages/kanban.html](https://grassroots-project.github.io/website/pages/kanban.html) |
-| 👥 人才库 | 成员信息、技能标签、贡献记录 | [/pages/people.html](https://grassroots-project.github.io/website/pages/people.html) |
-| 📦 资源池 | 共享资源（比特币、知识、工具） | [/pages/resources.html](https://grassroots-project.github.io/website/pages/resources.html) |
+| 📋 任务池 | 查看开放任务，GitHub 登录后一键领取 | [/pages/tasks.html](https://www.grassroots-project.app/pages/tasks.html) |
+| 📊 看板 | 实时查看任务进度（待领/进行中/已完成） | [/pages/kanban.html](https://www.grassroots-project.app/pages/kanban.html) |
+| 👥 人才库 | 成员信息、技能标签、贡献记录 | [/pages/people.html](https://www.grassroots-project.app/pages/people.html) |
+| 📦 资源池 | 共享资源（比特币、知识、工具） | [/pages/resources.html](https://www.grassroots-project.app/pages/resources.html) |
 
 ### AI 助手
 
@@ -34,7 +34,7 @@
 - 🚀 引导新人加入流程
 - 🔑 使用 Kimi (Moonshot) API，用户自己输入 API Key
 
-[访问 AI 助手](https://grassroots-project.github.io/website/pages/assistant.html)
+[访问 AI 助手](https://www.grassroots-project.app/pages/assistant.html)
 
 ### 任务领取
 
@@ -96,12 +96,12 @@ python -m http.server 8000
 
 ## 如何加入
 
-1. 阅读 [关于页面](https://grassroots-project.github.io/website/pages/about.html)
-2. 完成 [筛选问卷](https://grassroots-project.github.io/website/pages/join.html)
+1. 阅读 [关于页面](https://www.grassroots-project.app/pages/about.html)
+2. 完成 [筛选问卷](https://www.grassroots-project.app/pages/join.html)
 3. 发送答案到 xiaoping.tang@gmail.com
 4. 收到回复后，添加你的信息到人才库
 
-或者直接和 [AI 助手](https://grassroots-project.github.io/website/pages/assistant.html) 对话了解更多。
+或者直接和 [AI 助手](https://www.grassroots-project.app/pages/assistant.html) 对话了解更多。
 
 ## License
 

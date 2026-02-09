@@ -7,7 +7,7 @@ const KIMI_API_URL = 'https://api.kimi.com/coding/v1/chat/completions';
 
 // 允许的来源域名（你的网站）
 const ALLOWED_ORIGINS = [
-  'https://grassroots-project.github.io',
+  'https://www.grassroots-project.app',
   'http://localhost:8000',
   'http://127.0.0.1:8000',
 ];

@@ -91,11 +91,11 @@ grassroots-website/
 
 | 页面 | URL |
 |------|-----|
-| 首页 | `https://grassroots-project.github.io/website/` |
-| 关于 | `https://grassroots-project.github.io/website/pages/about.html` |
-| 任务池 | `https://grassroots-project.github.io/website/pages/tasks.html` |
-| 看板 | `https://grassroots-project.github.io/website/pages/kanban.html` |
-| 加入我们 | `https://grassroots-project.github.io/website/pages/join.html` |
+| 首页 | `https://www.grassroots-project.app/` |
+| 关于 | `https://www.grassroots-project.app/pages/about.html` |
+| 任务池 | `https://www.grassroots-project.app/pages/tasks.html` |
+| 看板 | `https://www.grassroots-project.app/pages/kanban.html` |
+| 加入我们 | `https://www.grassroots-project.app/pages/join.html` |
 
 ## 添加新页面的步骤
 
