@@ -92,7 +92,7 @@ python -m http.server 8000
 |------|------|
 | [grassroots-project/website](https://github.com/grassroots-project/website) | 本仓库，项目网站 |
 | [grassroots-project/tasks](https://github.com/grassroots-project/tasks) | 任务池、人才库、资源池（GitHub Issues） |
-| [grassroots-project/Grassroots](https://github.com/grassroots-project/Grassroots) | 项目文档和资料 |
+| [grassroots-project/docs](https://github.com/grassroots-project/docs) | 项目文档和资料 |
 
 ## 如何加入
 
