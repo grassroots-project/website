@@ -65,8 +65,29 @@ export function parsePeoplePool(markdown) {
   const lines = markdown.split('\n');
   const members = [];
   let currentMember = null;
+  let inMemberSection = false;
 
   for (const line of lines) {
+    // 检测成员区域开始
+    if (line.match(/^##\s+(成员|现有成员)/)) {
+      inMemberSection = true;
+      continue;
+    }
+    
+    // 检测成员区域结束（遇到下一个 ## 标题或 ---）
+    if (inMemberSection && (line.match(/^##\s+/) || line === '---')) {
+      inMemberSection = false;
+      // 保存最后一个成员
+      if (currentMember) {
+        members.push(currentMember);
+        currentMember = null;
+      }
+      continue;
+    }
+
+    // 只在成员区域内解析
+    if (!inMemberSection) continue;
+
     if (line.startsWith('### ')) {
       // 保存上一个成员
       if (currentMember) {
@@ -83,7 +104,7 @@ export function parsePeoplePool(markdown) {
       };
     } else if (currentMember && line.includes('：')) {
       const [key, value] = line.split('：');
-      const trimmedKey = key.trim().replace(/\*\*/g, '');
+      const trimmedKey = key.trim().replace(/\*\*/g, '').replace(/^-\s*/, '');
       switch (trimmedKey) {
         case '加入时间':
           currentMember.joined = value.trim();
