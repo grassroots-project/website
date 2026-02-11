@@ -263,6 +263,7 @@
     <div class="stats-bar">
       <div class="stat-item"><div class="num default" id="stat-total">-</div><div class="lbl">总资源</div></div>
       <div class="stat-item"><div class="num green" id="stat-available">-</div><div class="lbl">可用</div></div>
+      <div class="stat-item"><div class="num" id="stat-occupied" style="color:#dc2626">-</div><div class="lbl">已占用</div></div>
       <div class="stat-item"><div class="num yellow" id="stat-pending">-</div><div class="lbl">待规划</div></div>
     </div>
 
@@ -407,16 +408,28 @@
       return '📦';
     }
 
+    function normalizeStatus(s) {
+      if (!s) return '未知';
+      if (s.startsWith('可用')) return '可用';
+      if (s.startsWith('已占用')) return '已占用';
+      if (s.startsWith('待规划')) return '待规划';
+      if (s.startsWith('暂停')) return '暂停';
+      return s;
+    }
+
     function badgeClass(s) {
-      if (s.includes('可用')) return 'badge-green';
-      if (s.includes('待规划') || s.includes('暂停')) return 'badge-yellow';
-      return 'badge-red';
+      const ns = normalizeStatus(s);
+      if (ns === '可用') return 'badge-green';
+      if (ns === '待规划' || ns === '暂停') return 'badge-yellow';
+      if (ns === '已占用') return 'badge-red';
+      return 'badge-yellow';
     }
 
     function renderStats() {
       document.getElementById('stat-total').textContent = resources.length || '-';
-      document.getElementById('stat-available').textContent = resources.filter(r => r.status.includes('可用')).length || '-';
-      document.getElementById('stat-pending').textContent = resources.filter(r => r.status.includes('待规划') || r.status.includes('暂停')).length || '-';
+      document.getElementById('stat-available').textContent = resources.filter(r => normalizeStatus(r.status) === '可用').length || '0';
+      document.getElementById('stat-occupied').textContent = resources.filter(r => normalizeStatus(r.status) === '已占用').length || '0';
+      document.getElementById('stat-pending').textContent = resources.filter(r => normalizeStatus(r.status) === '待规划' || normalizeStatus(r.status) === '暂停').length || '0';
     }
 
     function renderResources() {
