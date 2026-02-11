@@ -93,6 +93,9 @@ export function parsePeoplePool(markdown) {
       const value = line.substring(colonIndex + 1).trim();
       
       switch (key) {
+        case 'GitHub':
+          currentMember.github = value;
+          break;
         case '加入时间':
           currentMember.joined = value;
           break;

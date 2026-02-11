@@ -243,9 +243,8 @@
 
     <ol style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
       <li>阅读 <a href="about.html">项目介绍</a>，了解我们在做什么</li>
-      <li>完成 <a href="join.html">筛选问卷</a></li>
-      <li>发送答案到 <strong>xiaoping.tang@gmail.com</strong></li>
-      <li>收到回复后，<a href="https://github.com/grassroots-project/tasks/edit/main/data/people.md" target="_blank">创建 PR</a> 添加你的信息</li>
+      <li><a href="https://github.com/grassroots-project/tasks/issues/new?template=join_request.yml" target="_blank">提交申请</a>（GitHub Issue 表单，无需懂 Git）</li>
+      <li>审核通过后，系统自动将你加入人才库</li>
     </ol>
 
     <hr>
@@ -256,6 +255,7 @@
     <p>复制以下模板，填写你的信息：</p>
 
     <div class="template-block">### [你的名字/昵称]
+- **GitHub**：[你的 GitHub 用户名]
 - **加入时间**：YYYY-MM-DD
 - **技能标签**：[用逗号分隔，例如：文案、设计、技术]
 - **时间承诺**：每周 Xh
@@ -342,7 +342,7 @@
               <div class="member-avatar">${initial}</div>
               <div class="member-info">
                 <h3>${member.name}</h3>
-                <div class="meta">${member.joined || ''} · ${member.time || ''}</div>
+                <div class="meta">${member.github ? `<a href="https://github.com/${member.github}" target="_blank">@${member.github}</a> · ` : ''}${member.joined || ''} · ${member.time || ''}</div>
               </div>
             </div>
             <div style="margin-top: 8px;">
