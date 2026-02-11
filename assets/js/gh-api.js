@@ -132,54 +132,62 @@ export function parseResourcePool(markdown) {
   const lines = sectionMatch[1].split('\n');
   const resources = [];
   let currentResource = null;
+  let currentField = null; // Track multi-line fields like 链接/使用说明
+
+  const fieldNames = ['资源类型', '类型', '描述', '当前状态', '负责人', '使用说明', '链接'];
 
   for (const line of lines) {
     if (line.startsWith('### ')) {
-      // 保存上一个资源
-      if (currentResource) {
-        resources.push(currentResource);
-      }
-      // 开始新资源
+      if (currentResource) resources.push(currentResource);
       currentResource = {
         name: line.replace('### ', '').trim(),
-        type: '',
-        description: '',
-        status: '',
-        owner: '',
-        instructions: '',
-        link: ''
+        type: '', description: '', status: '', owner: '', instructions: '', link: '', links: []
       };
-    } else if (currentResource && line.includes('：')) {
-      const [key, value] = line.split('：');
-      const trimmedKey = key.trim().replace(/\*\*/g, '').replace(/^-\s*/, '');
-      switch (trimmedKey) {
-        case '资源类型':
-        case '类型':
-          currentResource.type = value.trim();
-          break;
-        case '描述':
-          currentResource.description = value.trim();
-          break;
-        case '当前状态':
-          currentResource.status = value.trim();
-          break;
-        case '负责人':
-          currentResource.owner = value.trim();
-          break;
+      currentField = null;
+    } else if (!currentResource) {
+      continue;
+    } else if (line.match(/^-\s*\*\*/) && line.includes('：')) {
+      // Main field line: - **字段名**：值
+      const colonIdx = line.indexOf('：');
+      const key = line.substring(0, colonIdx).trim().replace(/\*\*/g, '').replace(/^-\s*/, '');
+      const value = line.substring(colonIdx + 1).trim();
+
+      currentField = null;
+      switch (key) {
+        case '资源类型': case '类型': currentResource.type = value; break;
+        case '描述': currentResource.description = value; break;
+        case '当前状态': currentResource.status = value; break;
+        case '负责人': currentResource.owner = value; break;
         case '使用说明':
-          currentResource.instructions = value.trim();
+          currentResource.instructions = value;
+          currentField = 'instructions';
           break;
         case '链接':
-          currentResource.link = value.trim();
+          currentResource.link = value;
+          currentField = 'link';
           break;
       }
+    } else if (currentField && line.match(/^\s+-\s/) && line.includes('：')) {
+      // Sub-item line:   - 子项名：值 (for 链接/使用说明)
+      const colonIdx = line.indexOf('：');
+      const subLabel = line.substring(0, colonIdx).trim().replace(/^-\s*/, '');
+      const subValue = line.substring(colonIdx + 1).trim();
+
+      if (currentField === 'link') {
+        currentResource.links.push({ label: subLabel, url: subValue });
+        // Set first sub-link as primary if main link is empty
+        if (!currentResource.link || currentResource.link === '-') {
+          currentResource.link = subValue;
+        }
+      } else if (currentField === 'instructions') {
+        currentResource.instructions += (currentResource.instructions ? '；' : '') + subLabel + '：' + subValue;
+      }
+    } else {
+      // Non-matching line, reset field tracking
+      if (line.trim() === '') currentField = null;
     }
   }
 
-  // 保存最后一个资源
-  if (currentResource) {
-    resources.push(currentResource);
-  }
-
+  if (currentResource) resources.push(currentResource);
   return resources;
 }

@@ -86,6 +86,7 @@
     .resource-owner { color: #666; }
     .resource-link { padding: 4px 12px; background: var(--accent-color); color: white; text-decoration: none; border-radius: 8px; font-size: 0.8rem; transition: opacity 0.2s; }
     .resource-link:hover { opacity: 0.85; }
+    .resource-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.6rem; }
 
     /* ── 使用规则：横排图标卡片 ── */
     .rules-grid {
@@ -441,7 +442,8 @@
       let f = resources;
       if (!f.length) { c.innerHTML = '<div class="empty-state">暂无资源</div>'; return; }
       c.innerHTML = f.map(r => {
-        const hasLink = r.link && r.link !== '-' && r.link.trim() && !r.link.startsWith('通过');
+        const hasLinks = r.links && r.links.length > 0;
+        const hasSingleLink = !hasLinks && r.link && r.link !== '-' && r.link.trim() && r.link.startsWith('http');
         return `
         <div class="resource-card">
           <div class="resource-top">
@@ -453,8 +455,9 @@
           ${r.instructions && r.instructions !== '-' ? `<div class="resource-instructions">📝 ${r.instructions}</div>` : ''}
           <div class="resource-footer">
             <span class="resource-owner">👤 ${r.owner || '未指定'}</span>
-            ${hasLink ? `<a class="resource-link" href="${r.link}" target="_blank">🔗 访问</a>` : ''}
+            ${hasSingleLink ? `<a class="resource-link" href="${r.link}" target="_blank">🔗 访问</a>` : ''}
           </div>
+          ${hasLinks ? `<div class="resource-links">${r.links.map(l => `<a class="resource-link" href="${l.url}" target="_blank">🔗 ${l.label}</a>`).join(' ')}</div>` : ''}
         </div>
       `}).join('');
     }
