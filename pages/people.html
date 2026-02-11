@@ -6,93 +6,152 @@
   <title>人才库 - Grassroots Project</title>
   <link rel="stylesheet" href="../assets/css/styles.css">
   <style>
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: var(--light-gray);
-      padding: 1.2rem;
-      border-radius: 12px;
+    .hero-section {
       text-align: center;
+      padding: 2rem 0 1rem;
     }
+    .hero-section h1 { margin-bottom: 0.5rem; }
+    .hero-section p { color: #666; max-width: 500px; margin: 0 auto; }
 
-    .stat-card .number {
-      font-size: 1.8rem;
-      font-weight: bold;
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      padding: 1.5rem 0;
+      margin: 1.5rem 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .stat-item { text-align: center; }
+    .stat-item .num {
+      font-size: 2rem;
+      font-weight: 700;
       color: var(--primary-color);
+      line-height: 1;
     }
-
-    .stat-card.highlight .number {
-      color: var(--accent-color);
-    }
-
-    .stat-card .label {
-      font-size: 0.85rem;
-      color: #666;
+    .stat-item .num.accent { color: var(--accent-color); }
+    .stat-item .lbl {
+      font-size: 0.8rem;
+      color: #888;
       margin-top: 4px;
     }
 
+    /* Filter */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      padding: 6px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      background: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: #555;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+    .filter-btn.active {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+
+    /* Member Cards */
     .member-grid {
       display: grid;
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.2rem;
     }
 
     .member-card {
       background: var(--light-gray);
-      padding: 1.2rem;
-      border-radius: 12px;
-      border-left: 4px solid var(--accent-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
     }
+    .member-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .member-card .status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+    }
+    .status-dot.active { background: #4ade80; }
+    .status-dot.idle { background: #d1d5db; }
 
-    .member-header {
+    .member-top {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
+      gap: 14px;
+      margin-bottom: 1rem;
     }
-
-    .member-avatar {
-      width: 44px;
-      height: 44px;
+    .avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e5e7eb;
+    }
+    .avatar-fallback {
+      width: 52px; height: 52px;
       border-radius: 50%;
       background: var(--accent-color);
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-weight: bold;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+      flex-shrink: 0;
     }
-
-    .member-info h3 {
-      font-size: 1.1rem;
+    .member-name {
+      font-size: 1.15rem;
+      font-weight: 600;
       color: var(--primary-color);
-      margin: 0;
+    }
+    .member-name a { color: inherit; text-decoration: none; }
+    .member-name a:hover { color: var(--accent-color); }
+    .member-meta {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 2px;
     }
 
-    .member-info .meta {
-      font-size: 0.85rem;
-      color: #666;
-    }
+    .member-body { margin-top: 0.8rem; }
 
-    .task-badge {
+    .task-section { margin-top: 0.6rem; }
+    .task-label {
+      font-size: 0.75rem;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .task-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .task-chip {
       display: inline-block;
       padding: 3px 10px;
       border-radius: 12px;
-      font-size: 0.8rem;
-      margin: 3px 3px 3px 0;
+      font-size: 0.78rem;
     }
-
-    .task-badge.in-progress {
+    .task-chip.current {
       background: #dbeafe;
       color: #1e40af;
     }
-
-    .task-badge.completed {
+    .task-chip.history {
       background: #dcfce7;
       color: #166534;
     }
@@ -101,78 +160,38 @@
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
-      margin-top: 8px;
+      margin-top: 0.8rem;
     }
-
     .skill-tag {
-      padding: 2px 8px;
+      padding: 3px 10px;
       background: #e5e7eb;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 0.75rem;
       color: #555;
     }
 
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 2rem 0 1rem;
-    }
-
-    .section-header h2 {
-      margin: 0;
-    }
-
-    .action-links {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .action-links a, .action-links button {
-      font-size: 0.85rem;
-    }
-
-    .refresh-btn {
-      padding: 6px 12px;
-      background: none;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .loading {
+    /* CTA */
+    .cta-section {
       text-align: center;
-      padding: 2rem;
-      color: #666;
+      padding: 3rem 1rem;
+      margin-top: 2rem;
+      background: linear-gradient(135deg, var(--light-gray), #fff);
+      border-radius: 16px;
+    }
+    .cta-section h2 { margin-bottom: 0.5rem; }
+    .cta-section p { color: #666; margin-bottom: 1.5rem; }
+    .cta-section .btn { font-size: 1rem; padding: 12px 28px; }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #999;
     }
 
-    .skills-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-    }
-
-    .skills-table th, .skills-table td {
-      text-align: left;
-      padding: 0.6rem;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .skills-table th {
-      background: var(--light-gray);
-      font-weight: 600;
-    }
-
-    .template-block {
-      background: #1a1a1a;
-      color: #f5f5f5;
-      padding: 1rem;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      overflow-x: auto;
-      white-space: pre;
+    @media (max-width: 640px) {
+      .stats-bar { gap: 1.5rem; }
+      .stat-item .num { font-size: 1.5rem; }
+      .member-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -197,92 +216,47 @@
   </nav>
 
   <main>
-    <div class="breadcrumb">
-      <a href="../index.html">首页</a>
-      <span>›</span>
-      <span>人才库</span>
+    <div class="hero-section">
+      <h1>👥 人才库</h1>
+      <p>开放协作，一切透明。每个人的技能、投入和贡献都被记录。</p>
     </div>
 
-    <h1>👥 人才库</h1>
-
-    <p>开放的协作场域，所有人都可以加入。技能、时间、当前参与、历史贡献——一切透明。</p>
-
-    <!-- 统计 -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="number" id="stat-members">-</div>
-        <div class="label">成员</div>
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="num" id="stat-members">-</div>
+        <div class="lbl">成员</div>
       </div>
-      <div class="stat-card highlight">
-        <div class="number" id="stat-active">-</div>
-        <div class="label">活跃中</div>
+      <div class="stat-item">
+        <div class="num accent" id="stat-active">-</div>
+        <div class="lbl">活跃</div>
       </div>
-      <div class="stat-card">
-        <div class="number" id="stat-time">-</div>
-        <div class="label">周投入</div>
+      <div class="stat-item">
+        <div class="num" id="stat-skills">-</div>
+        <div class="lbl">技能覆盖</div>
       </div>
-    </div>
-
-    <!-- 成员列表 -->
-    <div class="section-header">
-      <h2>成员</h2>
-      <div class="action-links">
-        <button class="refresh-btn" onclick="loadAll()">🔄</button>
-        <a href="https://github.com/grassroots-project/tasks/edit/main/data/people.md" target="_blank">✏️ 编辑</a>
+      <div class="stat-item">
+        <div class="num" id="stat-time">-</div>
+        <div class="lbl">周投入</div>
       </div>
     </div>
 
-    <div id="member-list" class="member-grid">
-      <div class="loading">加载中...</div>
+    <!-- Filter -->
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-btn active" data-filter="all">全部</button>
     </div>
 
-    <hr>
+    <!-- Members -->
+    <div class="member-grid" id="member-list">
+      <div class="empty-state">加载中...</div>
+    </div>
 
-    <!-- 如何加入 -->
-    <h2>如何加入</h2>
-
-    <ol style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
-      <li>阅读 <a href="about.html">项目介绍</a>，了解我们在做什么</li>
-      <li><a href="https://github.com/grassroots-project/tasks/issues/new?template=join_request.yml" target="_blank">提交申请</a>（GitHub Issue 表单，无需懂 Git）</li>
-      <li>审核通过后，系统自动将你加入人才库</li>
-    </ol>
-
-    <hr>
-
-    <!-- 成员模板 -->
-    <h2>成员模板</h2>
-
-    <p>复制以下模板，填写你的信息：</p>
-
-    <div class="template-block">### [你的名字/昵称]
-- **GitHub**：[你的 GitHub 用户名]
-- **加入时间**：YYYY-MM-DD
-- **技能标签**：[用逗号分隔，例如：文案、设计、技术]
-- **时间承诺**：每周 Xh
-- **当前任务**：-
-- **历史贡献**：-</div>
-
-    <hr>
-
-    <!-- 技能标签说明 -->
-    <h2>技能标签</h2>
-
-    <table class="skills-table">
-      <tr><th>标签</th><th>说明</th></tr>
-      <tr><td>文案</td><td>写作、内容策划</td></tr>
-      <tr><td>视频</td><td>视频制作、剪辑</td></tr>
-      <tr><td>设计</td><td>UI/UX、平面设计</td></tr>
-      <tr><td>技术</td><td>编程、开发</td></tr>
-      <tr><td>运营</td><td>社群运营、用户增长</td></tr>
-      <tr><td>沟通</td><td>沟通、协调</td></tr>
-      <tr><td>战略</td><td>战略规划、思维</td></tr>
-      <tr><td>产品</td><td>产品设计、规划</td></tr>
-    </table>
-
-    <hr>
-
-    <a href="join.html" class="btn">🚀 加入我们</a>
-    <a href="tasks.html" class="btn btn-outline">📋 查看任务</a>
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2>加入我们</h2>
+      <p>填写申请表单，审核通过后自动入库。无需懂 Git。</p>
+      <a href="https://github.com/grassroots-project/tasks/issues/new?template=join_request.yml" target="_blank" class="btn">📝 提交申请</a>
+    </div>
   </main>
 
   <button class="back-to-top hidden" onclick="scrollToTop()" title="返回顶部">↑</button>
@@ -295,6 +269,7 @@
     import { fetchPeoplePool, parsePeoplePool } from '../assets/js/gh-api.js';
 
     let members = [];
+    let currentFilter = 'all';
 
     async function loadAll() {
       try {
@@ -302,53 +277,122 @@
         if (poolData) {
           members = parsePeoplePool(poolData.body);
         }
-      } catch (error) {
-        console.error('Failed to load:', error);
+      } catch (e) {
+        console.error('Load failed:', e);
       }
       renderStats();
+      renderFilters();
       renderMembers();
+    }
+
+    function getAllSkills() {
+      const skills = new Set();
+      members.forEach(m => {
+        if (m.skills) {
+          m.skills.split(/[,，、]/).map(s => s.trim()).filter(Boolean).forEach(s => skills.add(s));
+        }
+      });
+      return [...skills].sort();
     }
 
     function renderStats() {
       const total = members.length;
       const active = members.filter(m => m.current && m.current !== '-' && m.current !== '无').length;
+      const allSkills = getAllSkills();
       const totalTime = members.reduce((sum, m) => {
-        if (!m.time) return sum;
-        const match = m.time.match(/(\d+)/);
+        const match = (m.time || '').match(/(\d+)/);
         return match ? sum + parseInt(match[1]) : sum;
       }, 0);
 
       document.getElementById('stat-members').textContent = total || '-';
       document.getElementById('stat-active').textContent = active || '-';
+      document.getElementById('stat-skills').textContent = allSkills.length || '-';
       document.getElementById('stat-time').textContent = totalTime > 0 ? `${totalTime}h` : '-';
+    }
+
+    function renderFilters() {
+      const bar = document.getElementById('filter-bar');
+      const skills = getAllSkills();
+      bar.innerHTML = '<button class="filter-btn active" data-filter="all">全部</button>'
+        + skills.map(s => `<button class="filter-btn" data-filter="${s}">${s}</button>`).join('');
+
+      bar.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentFilter = btn.dataset.filter;
+          bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderMembers();
+        });
+      });
+    }
+
+    function parseTasks(str) {
+      if (!str || str === '-' || str === '无') return [];
+      return str.split(/[,，、]/).map(s => s.trim()).filter(Boolean);
     }
 
     function renderMembers() {
       const container = document.getElementById('member-list');
+      let filtered = members;
 
-      if (members.length === 0) {
-        container.innerHTML = '<div class="loading">暂无成员数据</div>';
+      if (currentFilter !== 'all') {
+        filtered = members.filter(m =>
+          m.skills && m.skills.split(/[,，、]/).map(s => s.trim()).includes(currentFilter)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state">暂无成员</div>';
         return;
       }
 
-      container.innerHTML = members.map(member => {
-        const initial = member.name.charAt(0).toUpperCase();
-        const hasCurrentTask = member.current && member.current !== '-' && member.current !== '无';
+      container.innerHTML = filtered.map(member => {
+        const isActive = member.current && member.current !== '-' && member.current !== '无';
         const skills = member.skills ? member.skills.split(/[,，、]/).map(s => s.trim()).filter(Boolean) : [];
+        const currentTasks = parseTasks(member.current);
+        const historyTasks = parseTasks(member.history);
+        const ghUser = member.github;
+        const avatarUrl = ghUser && ghUser !== '-' ? `https://github.com/${ghUser}.png?size=104` : '';
 
         return `
           <div class="member-card">
-            <div class="member-header">
-              <div class="member-avatar">${initial}</div>
-              <div class="member-info">
-                <h3>${member.name}</h3>
-                <div class="meta">${member.github ? `<a href="https://github.com/${member.github}" target="_blank">@${member.github}</a> · ` : ''}${member.joined || ''} · ${member.time || ''}</div>
+            <span class="status-dot ${isActive ? 'active' : 'idle'}"></span>
+            <div class="member-top">
+              ${avatarUrl
+                ? `<img class="avatar" src="${avatarUrl}" alt="${member.name}" onerror="this.outerHTML='<div class=\\'avatar-fallback\\'>${member.name.charAt(0)}</div>'">`
+                : `<div class="avatar-fallback">${member.name.charAt(0)}</div>`
+              }
+              <div>
+                <div class="member-name">
+                  ${ghUser && ghUser !== '-'
+                    ? `<a href="https://github.com/${ghUser}" target="_blank">${member.name}</a>`
+                    : member.name
+                  }
+                </div>
+                <div class="member-meta">
+                  ${member.joined || ''}${member.time ? ' · ' + member.time : ''}
+                </div>
               </div>
             </div>
-            <div style="margin-top: 8px;">
-              ${hasCurrentTask ? `<span class="task-badge in-progress">🔄 ${member.current}</span>` : ''}
-              ${member.history && member.history !== '-' ? `<span class="task-badge completed">✅ ${member.history}</span>` : ''}
-            </div>
+
+            ${currentTasks.length > 0 ? `
+              <div class="task-section">
+                <div class="task-label">当前任务</div>
+                <div class="task-list">
+                  ${currentTasks.map(t => `<span class="task-chip current">${t}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${historyTasks.length > 0 ? `
+              <div class="task-section">
+                <div class="task-label">历史贡献</div>
+                <div class="task-list">
+                  ${historyTasks.map(t => `<span class="task-chip history">${t}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
             ${skills.length > 0 ? `
               <div class="skill-tags">
                 ${skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
@@ -367,14 +411,11 @@
     function toggleMenu() {
       document.getElementById('nav-menu').classList.toggle('show');
     }
-
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
     window.addEventListener('scroll', function() {
-      const btn = document.querySelector('.back-to-top');
-      btn.classList.toggle('hidden', window.scrollY <= 300);
+      document.querySelector('.back-to-top').classList.toggle('hidden', window.scrollY <= 300);
     });
   </script>
 </body>
