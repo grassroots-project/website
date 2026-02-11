@@ -24,26 +24,29 @@
       border-bottom: 1px solid var(--border-color);
     }
     .stat-item { text-align: center; }
-    .stat-item .num {
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1;
-    }
+    .stat-item .num { font-size: 2rem; font-weight: 700; line-height: 1; }
     .stat-item .num.green { color: #16a34a; }
     .stat-item .num.yellow { color: #ca8a04; }
     .stat-item .num.default { color: var(--primary-color); }
-    .stat-item .lbl {
-      font-size: 0.8rem;
-      color: #888;
-      margin-top: 4px;
+    .stat-item .lbl { font-size: 0.8rem; color: #888; margin-top: 4px; }
+
+    /* Section Styles */
+    .section { margin-bottom: 2.5rem; }
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* Filter */
+    /* ── 资源列表：卡片网格 ── */
     .filter-bar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
     }
     .filter-btn {
       padding: 6px 14px;
@@ -56,140 +59,189 @@
       transition: all 0.2s;
     }
     .filter-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
-    .filter-btn.active {
-      background: var(--accent-color);
-      color: white;
-      border-color: var(--accent-color);
-    }
+    .filter-btn.active { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-    /* Resource Cards */
     .resource-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.2rem;
     }
-
     .resource-card {
       background: var(--light-gray);
       border-radius: 14px;
-      padding: 1.5rem;
+      padding: 1.4rem;
       transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
     }
-    .resource-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    }
+    .resource-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .resource-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+    .resource-name { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .badge { padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .resource-type { display: inline-block; padding: 2px 10px; background: #e5e7eb; border-radius: 10px; font-size: 0.75rem; color: #555; margin-bottom: 0.5rem; }
+    .resource-desc { color: #555; font-size: 0.88rem; line-height: 1.5; margin-bottom: 0.6rem; }
+    .resource-meta { font-size: 0.82rem; color: #888; padding-top: 0.6rem; border-top: 1px solid var(--border-color); }
 
-    .resource-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.6rem;
+    /* ── 使用规则：横排图标卡片 ── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
     }
-    .resource-name {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .resource-badge {
-      padding: 3px 10px;
+    .rule-card {
+      background: var(--light-gray);
       border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      white-space: nowrap;
+      padding: 1.2rem;
+      text-align: center;
     }
-    .badge-available { background: #dcfce7; color: #166534; }
-    .badge-pending { background: #fef3c7; color: #92400e; }
-    .badge-occupied { background: #fee2e2; color: #991b1b; }
+    .rule-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .rule-card .title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .rule-card .desc { font-size: 0.82rem; color: #666; }
 
-    .resource-type {
-      display: inline-block;
-      padding: 2px 10px;
-      background: #e5e7eb;
-      border-radius: 10px;
-      font-size: 0.75rem;
-      color: #555;
-      margin-bottom: 0.6rem;
-    }
-
-    .resource-desc {
-      color: #555;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 0.8rem;
-    }
-
-    .resource-meta {
+    /* ── 申请流程：步骤条 ── */
+    .steps {
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.82rem;
-      color: #888;
-      padding-top: 0.8rem;
-      border-top: 1px solid var(--border-color);
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      padding-left: 2rem;
     }
-
-    .resource-link {
-      display: inline-block;
-      margin-top: 0.8rem;
-      padding: 5px 12px;
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border-color);
+    }
+    .step {
+      position: relative;
+      padding: 0.8rem 0 0.8rem 1.5rem;
+    }
+    .step::before {
+      content: attr(data-num);
+      position: absolute;
+      left: -2rem;
+      top: 0.8rem;
+      width: 30px; height: 30px;
+      border-radius: 50%;
       background: var(--accent-color);
       color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      z-index: 1;
     }
-    .resource-link:hover { opacity: 0.85; }
+    .step-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .step-desc { font-size: 0.85rem; color: #666; }
 
-    /* Rules */
-    .rules-section {
-      margin-top: 2.5rem;
-      padding: 1.5rem;
+    /* ── 状态说明：色条列表 ── */
+    .status-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.8rem 1rem;
       background: var(--light-gray);
-      border-radius: 14px;
+      border-radius: 10px;
     }
-    .rules-section h2 { font-size: 1.1rem; margin-bottom: 0.8rem; }
-    .rules-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    .status-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.s-available { background: #16a34a; }
+    .status-dot.s-occupied { background: #dc2626; }
+    .status-dot.s-pending { background: #ca8a04; }
+    .status-dot.s-paused { background: #9ca3af; }
+    .status-name { font-weight: 600; font-size: 0.9rem; min-width: 4em; }
+    .status-explain { font-size: 0.85rem; color: #666; }
+
+    /* ── 网站链接：紧凑链接栏 ── */
+    .links-bar {
+      display: flex;
+      flex-wrap: wrap;
       gap: 0.8rem;
     }
-    .rule-item {
+    .link-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--light-gray);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--primary-color);
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+    .link-chip:hover { background: var(--accent-color); color: white; }
+
+    /* ── 工作流：流程图风格 ── */
+    .workflow-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .workflow-group h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.6rem; }
+    .flow-row {
       display: flex;
-      align-items: flex-start;
-      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .flow-node {
+      padding: 6px 14px;
+      background: var(--light-gray);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #333;
+      white-space: nowrap;
+    }
+    .flow-arrow { color: #ccc; font-size: 0.9rem; }
+
+    /* ── FAQ：手风琴 ── */
+    .faq-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .faq-item {
+      background: var(--light-gray);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: 1rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .faq-q:hover { background: #ebebeb; }
+    .faq-q .arrow { transition: transform 0.2s; font-size: 0.8rem; color: #999; }
+    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 1.2rem;
       font-size: 0.88rem;
       color: #555;
+      line-height: 1.6;
     }
-    .rule-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .faq-item.open .faq-a { max-height: 500px; padding-bottom: 1rem; }
 
-    .empty-state {
-      text-align: center;
-      padding: 3rem;
-      color: #999;
-      grid-column: 1 / -1;
-    }
+    .empty-state { text-align: center; padding: 3rem; color: #999; grid-column: 1/-1; }
 
     @media (max-width: 640px) {
       .stats-bar { gap: 1.5rem; }
       .stat-item .num { font-size: 1.5rem; }
       .resource-grid { grid-template-columns: 1fr; }
+      .flow-row { flex-direction: column; align-items: flex-start; }
+      .flow-arrow { transform: rotate(90deg); }
     }
   </style>
 </head>
 <body>
   <nav>
     <a href="../index.html" class="logo">🌱 Grassroots Project</a>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
     <ul id="nav-menu">
       <li><a href="../index.html">🏠 首页</a></li>
       <li><a href="about.html">💡 关于</a></li>
@@ -205,52 +257,131 @@
   <main>
     <div class="hero-section">
       <h1>📦 资源库</h1>
-      <p>开放的资源，供协作使用。先沟通，后使用，及时更新状态。</p>
+      <p>开放的资源，供协作使用。技能、工具、资金——透明共享。</p>
     </div>
 
-    <!-- Stats -->
     <div class="stats-bar">
-      <div class="stat-item">
-        <div class="num default" id="stat-total">-</div>
-        <div class="lbl">总资源</div>
+      <div class="stat-item"><div class="num default" id="stat-total">-</div><div class="lbl">总资源</div></div>
+      <div class="stat-item"><div class="num green" id="stat-available">-</div><div class="lbl">可用</div></div>
+      <div class="stat-item"><div class="num yellow" id="stat-pending">-</div><div class="lbl">待规划</div></div>
+    </div>
+
+    <!-- ① 资源列表 -->
+    <div class="section">
+      <div class="section-title">📋 资源列表</div>
+      <div class="filter-bar" id="filter-bar">
+        <button class="filter-btn active" data-filter="all">全部</button>
       </div>
-      <div class="stat-item">
-        <div class="num green" id="stat-available">-</div>
-        <div class="lbl">可用</div>
-      </div>
-      <div class="stat-item">
-        <div class="num yellow" id="stat-pending">-</div>
-        <div class="lbl">待规划</div>
+      <div class="resource-grid" id="resource-list">
+        <div class="empty-state">加载中...</div>
       </div>
     </div>
 
-    <!-- Filter -->
-    <div class="filter-bar" id="filter-bar">
-      <button class="filter-btn active" data-filter="all">全部</button>
-    </div>
-
-    <!-- Resources -->
-    <div class="resource-grid" id="resource-list">
-      <div class="empty-state">加载中...</div>
-    </div>
-
-    <!-- Rules -->
-    <div class="rules-section">
-      <h2>📋 使用规则</h2>
-      <div class="rules-list">
-        <div class="rule-item"><span class="rule-icon">💬</span> 先沟通后使用，联系负责人</div>
-        <div class="rule-item"><span class="rule-icon">🔄</span> 使用后及时更新状态</div>
-        <div class="rule-item"><span class="rule-icon">🤝</span> 尊重他人时间，特别是人力资源</div>
-        <div class="rule-item"><span class="rule-icon">📝</span> 重要使用需记录到贡献记录</div>
+    <!-- ② 使用规则 -->
+    <div class="section">
+      <div class="section-title">📏 使用规则</div>
+      <div class="rules-grid">
+        <div class="rule-card"><div class="icon">💬</div><div class="title">先沟通后使用</div><div class="desc">使用前联系负责人确认</div></div>
+        <div class="rule-card"><div class="icon">🔄</div><div class="title">及时更新状态</div><div class="desc">用完后更新资源状态</div></div>
+        <div class="rule-card"><div class="icon">🤝</div><div class="title">尊重他人时间</div><div class="desc">特别是人力资源</div></div>
+        <div class="rule-card"><div class="icon">📝</div><div class="title">记录贡献</div><div class="desc">重要使用需记录到贡献</div></div>
       </div>
     </div>
+
+    <!-- ③ 申请流程 -->
+    <div class="section">
+      <div class="section-title">🚀 申请流程</div>
+      <div class="steps">
+        <div class="step" data-num="1"><div class="step-title">了解资源</div><div class="step-desc">查看资源列表，找到需要的资源</div></div>
+        <div class="step" data-num="2"><div class="step-title">沟通确认</div><div class="step-desc">与负责人沟通使用需求和时间</div></div>
+        <div class="step" data-num="3"><div class="step-title">使用资源</div><div class="step-desc">按说明使用，遵守规则</div></div>
+        <div class="step" data-num="4"><div class="step-title">更新状态</div><div class="step-desc">使用后更新资源状态和贡献记录</div></div>
+      </div>
+    </div>
+
+    <!-- ④ 状态说明 -->
+    <div class="section">
+      <div class="section-title">🔖 状态说明</div>
+      <div class="status-list">
+        <div class="status-item"><div class="status-dot s-available"></div><div class="status-name">可用</div><div class="status-explain">可直接使用，无需预约</div></div>
+        <div class="status-item"><div class="status-dot s-occupied"></div><div class="status-name">已占用</div><div class="status-explain">当前有人在用，需等待</div></div>
+        <div class="status-item"><div class="status-dot s-pending"></div><div class="status-name">待规划</div><div class="status-explain">尚未明确用途或使用方式</div></div>
+        <div class="status-item"><div class="status-dot s-paused"></div><div class="status-name">暂停</div><div class="status-explain">暂时不可用</div></div>
+      </div>
+    </div>
+
+    <!-- ⑤ 工作流 -->
+    <div class="section">
+      <div class="section-title">⚙️ 工作流</div>
+      <div class="workflow-container">
+        <div class="workflow-group">
+          <h3>👤 新成员</h3>
+          <div class="flow-row">
+            <span class="flow-node">提交申请</span><span class="flow-arrow">→</span>
+            <span class="flow-node">加入人才库</span><span class="flow-arrow">→</span>
+            <span class="flow-node">认领任务</span><span class="flow-arrow">→</span>
+            <span class="flow-node">使用资源</span><span class="flow-arrow">→</span>
+            <span class="flow-node">完成任务</span><span class="flow-arrow">→</span>
+            <span class="flow-node">更新记录</span>
+          </div>
+        </div>
+        <div class="workflow-group">
+          <h3>🔧 维护者</h3>
+          <div class="flow-row">
+            <span class="flow-node">审核申请</span><span class="flow-arrow">→</span>
+            <span class="flow-node">合并 PR</span><span class="flow-arrow">→</span>
+            <span class="flow-node">协调资源</span><span class="flow-arrow">→</span>
+            <span class="flow-node">统计贡献</span><span class="flow-arrow">→</span>
+            <span class="flow-node">更新状态</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑥ 网站链接 -->
+    <div class="section">
+      <div class="section-title">🔗 相关链接</div>
+      <div class="links-bar">
+        <a class="link-chip" href="https://www.grassroots-project.app/" target="_blank">🌐 项目网站</a>
+        <a class="link-chip" href="https://github.com/grassroots-project" target="_blank">🐙 GitHub</a>
+        <a class="link-chip" href="https://github.com/grassroots-project/tasks/issues" target="_blank">📋 任务池</a>
+        <a class="link-chip" href="https://github.com/grassroots-project/docs" target="_blank">📖 文档</a>
+        <a class="link-chip" href="people.html">👥 人才库</a>
+        <a class="link-chip" href="join.html">🚀 加入我们</a>
+      </div>
+    </div>
+
+    <!-- ⑦ FAQ -->
+    <div class="section">
+      <div class="section-title">❓ 常见问题</div>
+      <div class="faq-list" id="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">我没有 GitHub 怎么办？<span class="arrow">▼</span></div>
+          <div class="faq-a">现在需要 GitHub，因为任务池、人才库、资源库都基于 GitHub。访问 <a href="https://github.com/signup" target="_blank">github.com/signup</a> 免费注册。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">需要 Fork 整个仓库吗？<span class="arrow">▼</span></div>
+          <div class="faq-a">不一定。如果只是认领任务或使用资源，直接在 Issue 中评论即可。频繁编辑人才库/资源库才需要 Fork。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">人才库和任务池的信息如何同步？<span class="arrow">▼</span></div>
+          <div class="faq-a">已实现自动同步。Issue 标签变更时，GitHub Action 自动更新成员的当前任务和历史贡献。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">可以用昵称吗？<span class="arrow">▼</span></div>
+          <div class="faq-a">可以。在所有地方保持同一个昵称即可，方便追踪贡献。</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">比特币资源怎么用？<span class="arrow">▼</span></div>
+          <div class="faq-a">目前待规划。用途将在社区讨论后决定，主要方向是贡献奖励和项目资金。</div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <button class="back-to-top hidden" onclick="scrollToTop()" title="返回顶部">↑</button>
-
-  <footer>
-    <p>© 2026 Grassroots Project · 为被低估的人，拿回价值</p>
-  </footer>
+  <footer><p>© 2026 Grassroots Project · 为被低估的人，拿回价值</p></footer>
 
   <script type="module">
     import { fetchResourcePool, parseResourcePool } from '../assets/js/gh-api.js';
@@ -261,25 +392,17 @@
     async function loadAll() {
       try {
         const poolData = await fetchResourcePool();
-        if (poolData) {
-          resources = parseResourcePool(poolData.body);
-        }
-      } catch (e) {
-        console.error('Load failed:', e);
-      }
+        if (poolData) resources = parseResourcePool(poolData.body);
+      } catch (e) { console.error(e); }
       renderStats();
       renderFilters();
       renderResources();
     }
 
     function getTypes() {
-      const types = new Set();
-      resources.forEach(r => {
-        if (r.type) {
-          r.type.split(/[/／]/).map(t => t.trim()).filter(Boolean).forEach(t => types.add(t));
-        }
-      });
-      return [...types].sort();
+      const t = new Set();
+      resources.forEach(r => { if (r.type) r.type.split(/[/／]/).map(s => s.trim()).filter(Boolean).forEach(s => t.add(s)); });
+      return [...t].sort();
     }
 
     function getIcon(type) {
@@ -287,33 +410,25 @@
       if (type.includes('知识')) return '📚';
       if (type.includes('工具')) return '🔧';
       if (type.includes('人力')) return '👤';
-      if (type.includes('社交') || type.includes('沟通')) return '💬';
       return '📦';
     }
 
-    function getBadgeClass(status) {
-      if (status.includes('可用')) return 'badge-available';
-      if (status.includes('待规划') || status.includes('暂停')) return 'badge-pending';
-      if (status.includes('占用') || status.includes('使用中')) return 'badge-occupied';
-      return 'badge-available';
+    function badgeClass(s) {
+      if (s.includes('可用')) return 'badge-green';
+      if (s.includes('待规划') || s.includes('暂停')) return 'badge-yellow';
+      return 'badge-red';
     }
 
     function renderStats() {
-      const total = resources.length;
-      const available = resources.filter(r => r.status.includes('可用')).length;
-      const pending = resources.filter(r => r.status.includes('待规划') || r.status.includes('暂停')).length;
-
-      document.getElementById('stat-total').textContent = total || '-';
-      document.getElementById('stat-available').textContent = available || '-';
-      document.getElementById('stat-pending').textContent = pending || '-';
+      document.getElementById('stat-total').textContent = resources.length || '-';
+      document.getElementById('stat-available').textContent = resources.filter(r => r.status.includes('可用')).length || '-';
+      document.getElementById('stat-pending').textContent = resources.filter(r => r.status.includes('待规划') || r.status.includes('暂停')).length || '-';
     }
 
     function renderFilters() {
       const bar = document.getElementById('filter-bar');
-      const types = getTypes();
       bar.innerHTML = '<button class="filter-btn active" data-filter="all">全部</button>'
-        + types.map(t => `<button class="filter-btn" data-filter="${t}">${getIcon(t)} ${t}</button>`).join('');
-
+        + getTypes().map(t => `<button class="filter-btn" data-filter="${t}">${getIcon(t)} ${t}</button>`).join('');
       bar.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           currentFilter = btn.dataset.filter;
@@ -325,39 +440,20 @@
     }
 
     function renderResources() {
-      const container = document.getElementById('resource-list');
-      let filtered = resources;
-
-      if (currentFilter !== 'all') {
-        filtered = resources.filter(r => r.type && r.type.includes(currentFilter));
-      }
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div class="empty-state">暂无资源</div>';
-        return;
-      }
-
-      container.innerHTML = filtered.map(r => {
-        const icon = getIcon(r.type);
-        const badgeClass = getBadgeClass(r.status);
-        const hasLink = r.link && r.link !== '-' && r.link.trim();
-
-        return `
-          <div class="resource-card">
-            <div class="resource-top">
-              <div class="resource-name">${icon} ${r.name}</div>
-              <span class="resource-badge ${badgeClass}">${r.status}</span>
-            </div>
-            <div class="resource-type">${r.type || '其他'}</div>
-            <div class="resource-desc">${r.description || ''}</div>
-            <div class="resource-meta">
-              <span>👤 ${r.owner || '未指定'}</span>
-              ${r.instructions ? `<span>📝 ${r.instructions}</span>` : ''}
-            </div>
-            ${hasLink ? `<a class="resource-link" href="${r.link}" target="_blank">🔗 访问</a>` : ''}
+      const c = document.getElementById('resource-list');
+      let f = currentFilter === 'all' ? resources : resources.filter(r => r.type && r.type.includes(currentFilter));
+      if (!f.length) { c.innerHTML = '<div class="empty-state">暂无资源</div>'; return; }
+      c.innerHTML = f.map(r => `
+        <div class="resource-card">
+          <div class="resource-top">
+            <div class="resource-name">${getIcon(r.type)} ${r.name}</div>
+            <span class="badge ${badgeClass(r.status)}">${r.status}</span>
           </div>
-        `;
-      }).join('');
+          <div class="resource-type">${r.type || '其他'}</div>
+          <div class="resource-desc">${r.description || ''}</div>
+          <div class="resource-meta">👤 ${r.owner || '未指定'}${r.instructions ? ' · 📝 ' + r.instructions : ''}</div>
+        </div>
+      `).join('');
     }
 
     window.loadAll = loadAll;
@@ -365,13 +461,10 @@
   </script>
 
   <script>
-    function toggleMenu() {
-      document.getElementById('nav-menu').classList.toggle('show');
-    }
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    window.addEventListener('scroll', function() {
+    function toggleMenu() { document.getElementById('nav-menu').classList.toggle('show'); }
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function toggleFaq(el) { el.parentElement.classList.toggle('open'); }
+    window.addEventListener('scroll', () => {
       document.querySelector('.back-to-top').classList.toggle('hidden', window.scrollY <= 300);
     });
   </script>
