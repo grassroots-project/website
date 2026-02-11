@@ -151,7 +151,7 @@ export function parseResourcePool(markdown) {
       };
     } else if (currentResource && line.includes('：')) {
       const [key, value] = line.split('：');
-      const trimmedKey = key.trim().replace(/\*\*/g, '');
+      const trimmedKey = key.trim().replace(/\*\*/g, '').replace(/^-\s*/, '');
       switch (trimmedKey) {
         case '资源类型':
         case '类型':
