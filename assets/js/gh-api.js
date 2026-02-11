@@ -125,7 +125,11 @@ export function parsePeoplePool(markdown) {
 
 // 解析资源池 Markdown
 export function parseResourcePool(markdown) {
-  const lines = markdown.split('\n');
+  // Extract only the "## 资源列表" section
+  const sectionMatch = markdown.match(/^## 资源列表\s*\n([\s\S]*?)(?=\n---|\n## )/m);
+  if (!sectionMatch) return [];
+
+  const lines = sectionMatch[1].split('\n');
   const resources = [];
   let currentResource = null;
 
@@ -149,6 +153,7 @@ export function parseResourcePool(markdown) {
       const [key, value] = line.split('：');
       const trimmedKey = key.trim().replace(/\*\*/g, '');
       switch (trimmedKey) {
+        case '资源类型':
         case '类型':
           currentResource.type = value.trim();
           break;
