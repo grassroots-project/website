@@ -384,15 +384,12 @@
     import { fetchResourcePool, parseResourcePool } from '../assets/js/gh-api.js';
 
     let resources = [];
-    let currentFilter = 'all';
-
     async function loadAll() {
       try {
         const poolData = await fetchResourcePool();
         if (poolData) resources = parseResourcePool(poolData.body);
       } catch (e) { console.error(e); }
       renderStats();
-      renderFilters();
       renderResources();
     }
 
@@ -422,23 +419,9 @@
       document.getElementById('stat-pending').textContent = resources.filter(r => r.status.includes('待规划') || r.status.includes('暂停')).length || '-';
     }
 
-    function renderFilters() {
-      const bar = document.getElementById('filter-bar');
-      bar.innerHTML = '<button class="filter-btn active" data-filter="all">全部</button>'
-        + getTypes().map(t => `<button class="filter-btn" data-filter="${t}">${getIcon(t)} ${t}</button>`).join('');
-      bar.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          currentFilter = btn.dataset.filter;
-          bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          renderResources();
-        });
-      });
-    }
-
     function renderResources() {
       const c = document.getElementById('resource-list');
-      let f = currentFilter === 'all' ? resources : resources.filter(r => r.type && r.type.includes(currentFilter));
+      let f = resources;
       if (!f.length) { c.innerHTML = '<div class="empty-state">暂无资源</div>'; return; }
       c.innerHTML = f.map(r => `
         <div class="resource-card">
